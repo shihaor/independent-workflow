@@ -1,0 +1,70 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group 'shr'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven{
+        url 'http://maven.aliyun.com/nexus/content/groups/public/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    // spring
+    compile group: 'org.springframework', name: 'spring-core', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-beans', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-context', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-context-support', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-aop', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-aspects', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-tx', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-jdbc', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-web', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-webmvc', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-tx', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-expression', version: "${springVersion}"
+    compile group: 'org.springframework', name: 'spring-test', version: "${springVersion}"
+
+    // hibernate
+    compile group: 'org.hibernate', name: 'hibernate-core', version: "${hibernateVersion}"
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: "${hibernateVersion}"
+
+    // spring-data-jpa
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: "${jpaVersion}"
+    compile group: 'javax.el', name: 'javax.el-api', version: "2.2.4"
+
+    // mysql-connect
+    compile group: 'mysql', name: 'mysql-connector-java', version: "${mysqlConnectVersion}"
+
+    // hikari-cp
+    compile group: 'hikari-cp', name: 'hikari-cp', version: '1.6.1'
+
+    // activiti
+    compile group: 'org.activiti', name: 'activiti-engine', version: "${activitiVersion}"
+    compile group: 'org.activiti', name: 'activiti-spring', version: "${activitiVersion}"
+    compile ("org.activiti:activiti-json-converter:${activitiVersion}"){
+        exclude module: 'activiti-bpmn-model'
+    }
+
+    // guava
+    compile group: 'com.google.guava', name: 'guava', version: "${guavaVersion}"
+
+    // commons
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
+
+    // thymeleaf
+    compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.11.RELEASE'
+
+    // servlet
+    providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+    providedCompile group: 'javax', name: 'javaee-api', version: '7.0'
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+}

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <!--启用spring的一些annotation -->
+    <context:annotation-config/>
+    <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
+    <context:component-scan base-package="com.sdt"/>
+    <!--HandlerMapping 无需配置，SpringMVC可以默认启动-->
+    <mvc:default-servlet-handler/>
+    <!-- 配置注解驱动 可以将request参数与绑定到controller参数上 -->
+    <mvc:annotation-driven/>
+    <!-- 引入配置文件 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:frame.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--hikari数据连接池-->
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+        <property name="jdbcUrl" value="${jdbcUrl}"/>
+        <property name="driverClassName" value="${driverClassName}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+        <property name="readOnly" value="${readOnly}"/>
+        <property name="connectionTimeout" value="${connectionTimeout}"/>
+        <property name="idleTimeout" value="${idleTimeout}"/>
+        <property name="maxLifetime" value="${maxLifetime}"/>
+        <property name="maximumPoolSize" value="${maximumPoolSize}"/>
+        <property name="autoCommit" value="${autoCommit}"/>
+    </bean>
+
+    <!-- 事务管理器 -->
+    <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
+    <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <!--1、配置数据库连接池  -->
+        <property name="dataSource" ref="dataSource"></property>
+        <!-- 2、扫描实体所在包 -->
+        <property name="packagesToScan" value="com.sdt.workflow.entity"/>
+        <!--2、Hibernate的配置信息  -->
+        <property name="persistenceProvider">
+            <bean class="org.hibernate.jpa.HibernatePersistenceProvider"/>
+        </property>
+        <!-- jpa的适配器 -->
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="generateDdl" value="true"/>
+                <property name="database" value="MYSQL"/>
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect"/>
+                <property name="showSql" value="true"/>
+            </bean>
+        </property>
+        <!-- jpa的方言 -->
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+        </property>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"></property>
+    </bean>
+    <!-- 配置Jpa仓库 -->
+    <jpa:repositories base-package="com.sdt.workflow.dao"
+                      transaction-manager-ref="transactionManager"
+                      entity-manager-factory-ref="entityManagerFactory"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 覆盖引擎的配置 -->
+    <bean id="processEngineConfiguration"
+          class="org.activiti.spring.SpringProcessEngineConfiguration">
+        <!--数据库配置-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--事务管理，如果自己定义了， 那么就会覆盖原事务管理 jpa -->
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="jpaCloseEntityManager" value="true"/>
+        <property name="jpaEntityManagerFactory" ref="entityManagerFactory"/>
+        <property name="jpaHandleTransaction" value="true"/>
+        <!-- 是否自动创建表 -->
+        <property name="databaseSchemaUpdate" value="true"/>
+        <property name="activityFontName" value="宋体"/>
+        <property name="labelFontName" value="宋体"/>
+    </bean>
+
+    <!--配置引擎工厂 -->
+    <bean id="processEngineFactory" class="org.activiti.spring.ProcessEngineFactoryBean">
+        <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
+    </bean>
+
+    <!-- 暴露服务给spring -->
+    <bean id="repositoryService" factory-bean="processEngineFactory" factory-method="getRepositoryService"/>
+    <bean id="runtimeService" factory-bean="processEngineFactory" factory-method="getRuntimeService"/>
+    <bean id="formService" factory-bean="processEngineFactory" factory-method="getFormService"/>
+    <bean id="identityService" factory-bean="processEngineFactory" factory-method="getIdentityService"/>
+    <bean id="taskService" factory-bean="processEngineFactory" factory-method="getTaskService"/>
+    <bean id="historyService" factory-bean="processEngineFactory" factory-method="getHistoryService"/>
+    <bean id="managementService" factory-bean="processEngineFactory" factory-method="getManagementService"/>
+</beans>
