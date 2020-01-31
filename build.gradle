@@ -63,8 +63,18 @@ dependencies {
     // thymeleaf
     compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.11.RELEASE'
 
+    // logback
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: "${logbackVersion}"
+
     // servlet
     providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
     providedCompile group: 'javax', name: 'javaee-api', version: '7.0'
     providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+
+    // batik 处理复杂的矢量图
+    compile group: 'org.apache.xmlgraphics', name: 'batik-codec', version: "${xmlgraphicsVersion}"
+    compile group: 'org.apache.xmlgraphics', name: 'batik-css', version: "${xmlgraphicsVersion}"
+    compile group: 'org.apache.xmlgraphics', name: 'batik-svg-dom', version: "${xmlgraphicsVersion}"
+    compile group: 'org.apache.xmlgraphics', name: 'batik-svggen', version: "${xmlgraphicsVersion}"
+
 }

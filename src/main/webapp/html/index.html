@@ -1,0 +1,88 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<center><h1 style="color: #b9393f;">全部模型</h1></center>
+<hr/>
+<table cellpadding="0" border="3">
+    <tr>
+        <td>模型编号</td>
+        <td>版本</td>
+        <td>模型名称</td>
+        <td>模型key</td>
+        <td>操作</td>
+    </tr>
+    <tr th:each="model, gStat: ${modelList}">
+        <td th:text="${model.id}"></td>
+        <td th:text="${model.version}"></td>
+        <td th:text="${model.name}"></td>
+        <td th:text="${model.key}"></td>
+        <td>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script>
+
+    $("#addGoods").click(function () {
+        $("#add").show();
+    });
+    var goods = new Object();
+    /** 增 */
+    $("#sureG").click(function () {
+        goods.goodsName = $("#name").val();
+        goods.descr = $("#describe").val();
+        $.ajax({
+            url: "/save-goods",
+            type: "POST",
+            async: false,
+            datatype: "json",
+            contentType: "application/json",
+            data: JSON.stringify(goods),
+            success: function (msg) {
+                if (msg.code == 0) {
+                    alert(msg.data);
+                    window.location.href = "/show";
+                } else {
+                    alert(msg.msg);
+                }
+            }
+        });
+    });
+</script>
+<script>
+    $(".b").click(function () {
+        var userId = $("#user_id").text();
+        var goodsDescr = $(this).find("span").text();
+        var goodsName = $(this).find("p").text();
+
+        var approval = new Object();
+        approval.userId = userId;
+        approval.goodsName = goodsName;
+        approval.goodsDescr = goodsDescr;
+
+        $.ajax({
+            url: "/proc/start-apply",
+            type: "POST",
+            async: false,
+            datatype: "json",
+            contentType: "application/json",
+            data: JSON.stringify(approval),
+            success: function (msg) {
+                if (msg.code == 0) {
+                    alert(msg.data);
+                    // window.location.href="/show";
+                } else {
+                    alert(msg.msg);
+                }
+            }
+        });
+    });
+</script>
+<script>
+
+</script>
