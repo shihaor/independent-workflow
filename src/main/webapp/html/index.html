@@ -5,7 +5,14 @@
 </head>
 <body>
 <center><h1 style="color: #b9393f;">全部模型</h1></center>
+<button id="digram">绘制流程</button>
 <hr/>
+<div style="display: none" id="add">
+    流程名字： <input id="name" type="text"/>
+    流程key: <input id="key" type="text"/>
+    modelId : <font id="modelId" color="red"></font>
+    <button id="play">开始绘制</button>
+</div>
 <table cellpadding="0" border="3">
     <tr>
         <td>模型编号</td>
@@ -20,36 +27,51 @@
         <td th:text="${model.name}"></td>
         <td th:text="${model.key}"></td>
         <td>
+            <a th:href="@{/editor(modelId=${model.id})}">编辑</a>
+            <a th:href="@{/publishModel(modelId=${model.id})}">发布</a>
+            <a th:href="@{/revokePublish(modelId=${model.id})}">撤销</a>
+            <a th:href="@{/deleteModel(modelId=${model.id})}">删除</a>
         </td>
     </tr>
 </table>
+
 </body>
 </html>
 <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 <script>
-
-    $("#addGoods").click(function () {
+    $("#digram").click(function () {
+        // 获取modelId 传入显示
         $("#add").show();
-    });
-    var goods = new Object();
-    /** 增 */
-    $("#sureG").click(function () {
-        goods.goodsName = $("#name").val();
-        goods.descr = $("#describe").val();
         $.ajax({
-            url: "/save-goods",
+            url: "/getModelId",
+            type: "GET",
+            async: false,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (msg) {
+                console.log(msg.msg);
+                $("#modelId").text(msg.msg);
+            }
+        });
+    });
+    /** 增 */
+    $("#play").click(function () {
+        var name = $("#name").val();
+        var key = $("#key").val();
+        var modelId = $("#modelId").text();
+        var modelVO = new Object();
+        modelVO.name = name;
+        modelVO.key = key;
+        modelVO.modelId = modelId;
+        $.ajax({
+            url: "/createModel",
             type: "POST",
             async: false,
-            datatype: "json",
+            dataType: "json",
             contentType: "application/json",
-            data: JSON.stringify(goods),
+            data: JSON.stringify(modelVO),
             success: function (msg) {
-                if (msg.code == 0) {
-                    alert(msg.data);
-                    window.location.href = "/show";
-                } else {
-                    alert(msg.msg);
-                }
+                window.location.href= "editor?modeId=" + modelId;
             }
         });
     });

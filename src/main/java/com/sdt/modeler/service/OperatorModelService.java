@@ -1,15 +1,19 @@
 package com.sdt.modeler.service;
 
+import clojure.lang.IFn;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -33,6 +37,9 @@ public class OperatorModelService {
     @Resource
     private RepositoryService repositoryService;
 
+    @Resource
+    private RuntimeService runtimeService;
+
     private final Logger LOGGER = LoggerFactory.getLogger(OperatorModelService.class);
 
     private ObjectMapper mapper = new ObjectMapper();
@@ -51,6 +58,7 @@ public class OperatorModelService {
      */
     public String getModelId() {
         Model model = repositoryService.newModel();
+        repositoryService.saveModel(model);
         return model.getId();
     }
 
@@ -105,19 +113,73 @@ public class OperatorModelService {
      * @param modelId 模型Id
      */
     public void publishModel(String modelId) throws IOException {
-        LOGGER.info("流程部署入参modelId：{}",modelId);
+        LOGGER.info("流程部署入参modelId：{}", modelId);
         Model modelData = repositoryService.getModel(modelId);
         byte[] source = repositoryService.getModelEditorSource(modelData.getId());
         if (null == source) {
-            LOGGER.info("部署ID:{}的模型数据为空，请先设计流程并成功保存，再进行发布",modelId);
+            LOGGER.info("部署ID:{}的模型数据为空，请先设计流程并成功保存，再进行发布", modelId);
             throw new ActivitiException("the resources is null, pleasse check it");
         }
         JsonNode modelNode = new ObjectMapper().readTree(source);
         BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
+        List<Deployment> deploymentList = repositoryService.createDeploymentQuery().list();
+        deploymentList.forEach(deployment -> {
+            if (deployment.getName().equals(modelData.getName())) {
+                LOGGER.error("流程部署入参modelId：{},部署失败，名字重复", modelId);
+                throw new ActivitiException("deploy fail,because name is Duplicate");
+            }
+        });
         // 这里可以调用项目中的部署方法
         Deployment deploy = repositoryService.createDeployment().name(modelData.getName()).addBpmnModel(modelData.getKey()
-                + ".bpmn20.xml", model).deploy();
+                + ".bpmn20.xml", model).enableDuplicateFiltering().deploy();
         modelData.setDeploymentId(deploy.getId());
         repositoryService.saveModel(modelData);
+    }
+
+    /**
+     * 根据模型Id撤销发布
+     *
+     * @param modelId 模型ID
+     */
+    public void revokePublish(String modelId) {
+        LOGGER.info("撤销发布的流程，入参为: {}", modelId);
+        Model modelData = repositoryService.getModel(modelId);
+        if (null != modelData) {
+            // 这里不做级联删除，防止正在执行的流程定义被删除
+            try {
+                repositoryService.deleteDeployment(modelData.getDeploymentId());
+            } catch (Exception e) {
+                LOGGER.error("还有在执行的流程");
+                throw new ActivitiException("还有在执行的流程");
+            }
+        }
+    }
+
+    /**
+     * 根据模型ID删除模型
+     *
+     * @param modelId 模型ID
+     */
+    public void deleteModel(String modelId) {
+
+        LOGGER.info("删除流程实例，入参为: {}", modelId);
+        Model modelData = repositoryService.getModel(modelId);
+        if (null != modelData) {
+            repositoryService.deleteModel(modelId);
+        }
+    }
+
+    /**
+     * 添加bpmn文件下载
+     *
+     * @param modelId 模型id
+     * @return 文件字节流
+     * @throws IOException 转化xml异常
+     */
+    public byte[] downloadModel(String modelId) throws IOException {
+        byte[] source = repositoryService.getModelEditorSource(modelId);
+        JsonNode modelNode = mapper.readTree(source);
+        BpmnModel bpmnModel = new BpmnJsonConverter().convertToBpmnModel(modelNode);
+        return new BpmnXMLConverter().convertToXML(bpmnModel);
     }
 }

@@ -2,14 +2,10 @@ package com.sdt.modeler.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sdt.modeler.service.ModelService;
-import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 /**
  *

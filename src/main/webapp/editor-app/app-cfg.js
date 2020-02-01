@@ -19,7 +19,7 @@
 'use strict';
 
 var ACTIVITI = ACTIVITI || {};
-
+/**  这里修改根目录 */
 ACTIVITI.CONFIG = {
 	'contextRoot' : '/service',
 };

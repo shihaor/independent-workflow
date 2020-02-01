@@ -1,20 +1,20 @@
 package com.sdt.modeler.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sdt.JsonUtil;
 import com.sdt.modeler.service.OperatorModelService;
+import com.sdt.modeler.vo.ModelVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 操作模型的接口
@@ -23,7 +23,6 @@ import java.util.Map;
  * @date 2020/1/31
  */
 @Controller
-@RequestMapping("/operator")
 public class OperatorModelController {
 
     @Resource
@@ -36,28 +35,62 @@ public class OperatorModelController {
         return "index.html";
     }
 
-    @GetMapping("editor")
+    @GetMapping("/editor")
     public String editor() {
-        return "modeler";
+        return "modeler.html";
     }
 
     @ResponseBody
-    @RequestMapping("/getModelId")
-    public String getModelId(Model model) throws Exception {
+    @GetMapping(value = "/getModelId")
+    public String getModelId() throws Exception {
         String modelId = operatorModelService.getModelId();
         return JsonUtil.genJsonSuccess(modelId);
     }
 
-    @RequestMapping("/createModel")
-    public void createModel(HttpServletResponse response, String name, String key, String modelId) {
+    @ResponseBody
+    @RequestMapping(value = "/createModel", method = RequestMethod.POST)
+    public String createModel(@RequestBody ModelVO modelVO) throws Exception {
+
+        String name = modelVO.getName();
+        String key = modelVO.getKey();
+        String modelId = modelVO.getModelId();
         operatorModelService.createModel(name, key, modelId);
+        return JsonUtil.genJsonSuccess("创建成功");
     }
 
     @ResponseBody
     @RequestMapping("/publishModel")
     public String publishModel(String modelId) throws Exception {
         operatorModelService.publishModel(modelId);
-        return JsonUtil.genJsonSuccess("发布成功");
+        return JsonUtil.genJsonSuccess("publish model success");
     }
 
+    @ResponseBody
+    @RequestMapping("/revokePublish")
+    public String revokePublish(String modelId) throws Exception {
+
+        operatorModelService.revokePublish(modelId);
+        return JsonUtil.genJsonSuccess("revoke model success");
+    }
+
+    @ResponseBody
+    @RequestMapping("/deleteModel")
+    public String deleteModel(String modelId) throws Exception {
+
+        operatorModelService.deleteModel(modelId);
+        return JsonUtil.genJsonSuccess("delete model success");
+    }
+
+    @ResponseBody
+    @RequestMapping("/downloadModel")
+    public void downloadModel(HttpServletResponse response, String modelId) throws IOException {
+        byte[] bytes = operatorModelService.downloadModel(modelId);
+        String filename = new Date().toString() + ".bpmn20.xml";
+        response.setContentType("application/x-msdownload;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename=\"" + new String(filename.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1) + "\"");
+        PrintWriter outputStream = response.getWriter();
+        outputStream.print(new String(bytes));
+        outputStream.flush();
+        outputStream.close();
+    }
 }
