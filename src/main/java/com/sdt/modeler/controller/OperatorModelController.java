@@ -89,7 +89,7 @@ public class OperatorModelController {
         response.setContentType("application/x-msdownload;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename=\"" + new String(filename.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1) + "\"");
         PrintWriter outputStream = response.getWriter();
-        outputStream.print(new String(bytes));
+        outputStream.print(new String(bytes, StandardCharsets.UTF_8));
         outputStream.flush();
         outputStream.close();
     }
