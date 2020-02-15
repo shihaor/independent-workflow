@@ -11,7 +11,8 @@
     流程名字： <input id="name" type="text"/>
     流程key: <input id="key" type="text"/>
     modelId : <font id="modelId" color="red"></font>
-    <button id="play">开始绘制</button>
+    <!--<button id="play">开始绘制</button>-->
+    <a id="play">开始绘制</a>
 </div>
 <table cellpadding="0" border="3">
     <tr>
@@ -72,7 +73,8 @@
             contentType: "application/json",
             data: JSON.stringify(modelVO),
             success: function (msg) {
-                window.location.href= "editor?modeId=" + modelId;
+                // window.location.href= "editor?modeId=" + modelId;
+                $("#play").attr("href", "editor?modelId=" + modelId);
             }
         });
     });
