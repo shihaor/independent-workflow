@@ -261,7 +261,7 @@ KISBPM.TOOLBAR = {
         },
         
         closeEditor: function(services) {
-        	window.location.href = "../../html";
+            window.location.href = "../../index";
         },
         
         /**
