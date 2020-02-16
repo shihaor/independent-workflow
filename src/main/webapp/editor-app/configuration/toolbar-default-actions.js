@@ -261,7 +261,7 @@ KISBPM.TOOLBAR = {
         },
         
         closeEditor: function(services) {
-            window.location.href = "../../index";
+            window.location.href = "127.0.0.1:9527/index";
         },
         
         /**
