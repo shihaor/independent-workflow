@@ -27,12 +27,6 @@ public class OperatorModelController {
     @Resource
     private OperatorModelService operatorModelService;
 
-    /**
-     *  这里的url设置为空 则可以正常返回 但是会顶掉装备首页 找不到前端是哪里控制跳转的
-     *
-     * @param model 模型控制器
-     * @return 跳转的页面
-     */
     @RequestMapping("/index")
     public String index(Model model) {
         List<org.activiti.engine.repository.Model> resultList = operatorModelService.findAllModel();

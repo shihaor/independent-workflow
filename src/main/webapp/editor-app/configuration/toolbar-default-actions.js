@@ -261,7 +261,7 @@ KISBPM.TOOLBAR = {
         },
         
         closeEditor: function(services) {
-            window.location.href = "127.0.0.1:9527/index";
+            window.location.href = "http://127.0.0.1:9527/index";
         },
         
         /**
@@ -326,7 +326,8 @@ var SaveModelCtrl = [ '$rootScope', '$scope', '$http', '$route', '$location',
 
     $scope.saveAndClose = function () {
     	$scope.save(function() {
-    		window.location.href = "../../html";
+            // window.location.href = "../../html";
+            window.location.href = "http://127.0.0.1:9527/index";
     	});
     };
     $scope.save = function (successCallback) {

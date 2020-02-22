@@ -2,7 +2,6 @@ package com.sdt.modeler.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.sdt.modeler.controller.ModelController;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Model;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -119,7 +117,7 @@ public class ModelService {
     /**
      * 获取编辑页面的样式
      *
-     * @return
+     * @return 文件的字符串
      */
     public String getStencilet() {
 
