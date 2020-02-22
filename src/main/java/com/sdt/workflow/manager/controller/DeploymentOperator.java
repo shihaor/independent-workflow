@@ -1,6 +1,6 @@
-package com.sdt.workflow.controller;
+package com.sdt.workflow.manager.controller;
 
-import com.sdt.workflow.service.DeploymentOperatorService;
+import com.sdt.workflow.manager.service.DeploymentOperatorService;
 import com.sdt.workflow.utils.JsonUtil;
 import org.springframework.web.bind.annotation.*;
 

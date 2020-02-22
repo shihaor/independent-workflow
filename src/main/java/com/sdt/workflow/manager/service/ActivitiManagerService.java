@@ -1,4 +1,4 @@
-package com.sdt.workflow.service;
+package com.sdt.workflow.manager.service;
 
 import org.activiti.engine.repository.Deployment;
 

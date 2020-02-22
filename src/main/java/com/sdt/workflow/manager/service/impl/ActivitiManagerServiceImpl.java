@@ -1,6 +1,6 @@
-package com.sdt.workflow.service.impl;
+package com.sdt.workflow.manager.service.impl;
 
-import com.sdt.workflow.service.ActivitiManagerService;
+import com.sdt.workflow.manager.service.ActivitiManagerService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
 import org.springframework.context.annotation.Scope;

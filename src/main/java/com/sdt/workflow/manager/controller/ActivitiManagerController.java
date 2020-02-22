@@ -1,6 +1,6 @@
-package com.sdt.workflow.controller;
+package com.sdt.workflow.manager.controller;
 
-import com.sdt.workflow.service.ActivitiManagerService;
+import com.sdt.workflow.manager.service.ActivitiManagerService;
 import org.activiti.engine.repository.Deployment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,4 +1,4 @@
-package com.sdt.workflow.service;
+package com.sdt.workflow.manager.service;
 
 /**
  * 部署资源操作服务接口
