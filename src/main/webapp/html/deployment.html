@@ -19,53 +19,81 @@
             <td th:text="${model.name}"></td>
             <td th:text="${model.deploymentTime}"></td>
             <td>
-                <a th:href="@{/operator/suspendDeployment/{id}(id=${model.id})}">挂起</a>
-                <a th:href="@{/operator/activeDeployment/{id}(id=${model.id})}">激活</a>
-                <a th:href="@{/operator/deleteDeployment/{id}(id=${model.id})}">删除</a>
-                <a th:href="@{/operator/getBpmn/{id}(id=${model.id})}">查看BPMN图</a>
+                <button id="suspend">
+                    <p hidden id="modelId" th:text="${model.id}"></p>
+                    挂起
+                </button>
+                <button id="active">
+                    <p hidden id="modelId" th:text="${model.id}"></p>
+                    激活
+                </button>
+                <button id="delete">
+                    <p hidden id="modelId" th:text="${model.id}"></p>
+                    删除
+                </button>
+                <button id="getBpmn">
+                    <p hidden id="modelId" th:text="${model.id}"></p>
+                    查看BPMN图
+                </button>
             </td>
         </tr>
     </table>
 </center>
+<img id="image" style="display: none"/>
 </body>
 </html>
 <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 <script>
-    $("#digram").click(function () {
-        // 获取modelId 传入显示
-        $("#add").show();
+    // 挂起
+    $("#suspend").click(function () {
+        var id = $(this).find("p").text();
         $.ajax({
-            url: "/getModelId",
-            type: "GET",
-            async: false,
-            dataType: "json",
-            contentType: "application/json",
-            success: function (msg) {
-                console.log(msg.msg);
-                $("#modelId").text(msg.msg);
-            }
-        });
-    });
-    /** 增 */
-    $("#play").click(function () {
-        var name = $("#name").val();
-        var key = $("#key").val();
-        var modelId = $("#modelId").text();
-        var modelVO = {};
-        modelVO.name = name;
-        modelVO.key = key;
-        modelVO.modelId = modelId;
-        $.ajax({
-            url: "/createModel",
+            url: "/operator/suspendDeployment/" + id,
             type: "POST",
             async: false,
             dataType: "json",
             contentType: "application/json",
-            data: JSON.stringify(modelVO),
             success: function (msg) {
-                // window.location.href= "editor?modeId=" + modelId;
-                $("#play").attr("href", "editor?modelId=" + modelId);
+                alert(msg.msg)
             }
         });
     });
+    // 激活
+    $("#active").click(function () {
+        var id = $(this).find("p").text();
+        $.ajax({
+            url: "/operator/activeDeployment/" + id,
+            type: "POST",
+            async: false,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (msg) {
+                alert(msg.msg)
+            }
+        });
+    });
+    // 删除
+    $("#delete").click(function () {
+        var id = $(this).find("p").text();
+        $.ajax({
+            url: "/operator/deleteDeployment/" + id,
+            type: "POST",
+            async: false,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (msg) {
+                alert(msg.msg)
+            }
+        });
+    });
+    // 获取bpmn图片
+    $("#getBpmn").click(function () {
+        var id = $(this).find("p").text();
+        $("#image").attr("src", "/operator/getBpmn/" + id);
+        $("#image").show();
+    });
+    // 点击图片隐藏
+    $("#image").click(function () {
+        $("#image").hide();
+    })
 </script>
