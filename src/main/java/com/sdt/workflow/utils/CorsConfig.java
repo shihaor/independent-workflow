@@ -1,4 +1,4 @@
-package com.sdt;
+package com.sdt.workflow.utils;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

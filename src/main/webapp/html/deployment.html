@@ -1,42 +1,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Title</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <title>已部署的流程</title>
 </head>
 <body>
-<center><h1 style="color: #b9393f;">全部模型</h1></center>
-<button id="digram">绘制流程</button>
+<center><h1 style="color: #b9393f;">已部署的流程</h1></center>
 <hr/>
-<div style="display: none" id="add">
-    流程名字： <input id="name" type="text"/>
-    流程key: <input id="key" type="text"/>
-    modelId : <font id="modelId" color="red"></font>
-    <!--<button id="play">开始绘制</button>-->
-    <a id="play">开始绘制</a>
-</div>
 <center>
-<table cellpadding="0" border="3">
-    <tr>
-        <td>模型编号</td>
-        <td>版本</td>
-        <td>模型名称</td>
-        <td>模型key</td>
-        <td>操作</td>
-    </tr>
-    <tr th:each="model, gStat: ${modelList}">
-        <td th:text="${model.id}"></td>
-        <td th:text="${model.version}"></td>
-        <td th:text="${model.name}"></td>
-        <td th:text="${model.key}"></td>
-        <td>
-            <a th:href="@{/editor(modelId=${model.id})}">编辑</a>
-            <a th:href="@{/publishModel(modelId=${model.id})}">发布</a>
-            <a th:href="@{/revokePublish(modelId=${model.id})}">撤销</a>
-            <a th:href="@{/deleteModel(modelId=${model.id})}">删除</a>
-            <a th:href="@{/downloadModel(modelId=${model.id})}">下载</a>
-        </td>
-    </tr>
-</table>
+    <table border="3" cellpadding="0">
+        <tr>
+            <td>部署Id</td>
+            <td>部署名字</td>
+            <td>部署时间</td>
+            <td>操作</td>
+        </tr>
+        <tr th:each="model, gStat: ${modelList}">
+            <td th:text="${model.id}"></td>
+            <td th:text="${model.name}"></td>
+            <td th:text="${model.deploymentTime}"></td>
+            <td>
+                <a th:href="@{/editor(modelId=${model.id})}">挂起</a>
+                <a th:href="@{/publishModel(modelId=${model.id})}">激活</a>
+                <a th:href="@{/revokePublish(modelId=${model.id})}">删除</a>
+                <a th:href="@{/downloadModel(modelId=${model.id})}">查看BPMN图</a>
+            </td>
+        </tr>
+    </table>
 </center>
 </body>
 </html>

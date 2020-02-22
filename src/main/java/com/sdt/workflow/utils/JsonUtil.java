@@ -1,4 +1,4 @@
-package com.sdt;
+package com.sdt.workflow.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
