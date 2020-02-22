@@ -3,10 +3,10 @@ package com.sdt.workflow.service.impl;
 import com.sdt.workflow.service.ActivitiManagerService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,7 +19,7 @@ import java.util.List;
 @Scope("prototype")
 public class ActivitiManagerServiceImpl implements ActivitiManagerService {
 
-    @Autowired
+    @Resource
     private RepositoryService repositoryService;
 
     @Override

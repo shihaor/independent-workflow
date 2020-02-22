@@ -2,12 +2,12 @@ package com.sdt.workflow.controller;
 
 import com.sdt.workflow.service.ActivitiManagerService;
 import org.activiti.engine.repository.Deployment;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,12 +20,8 @@ import java.util.List;
 @RequestMapping("/workflow")
 public class ActivitiManagerController {
 
-    @Autowired
-    private final ActivitiManagerService activitiManagerService;
-
-    public ActivitiManagerController(ActivitiManagerService activitiManagerService) {
-        this.activitiManagerService = activitiManagerService;
-    }
+    @Resource
+    private ActivitiManagerService activitiManagerService;
 
     @GetMapping("/findAllDeployments")
     public String findAllDeployments(Model model) {

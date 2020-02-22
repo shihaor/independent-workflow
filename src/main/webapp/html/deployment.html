@@ -19,10 +19,10 @@
             <td th:text="${model.name}"></td>
             <td th:text="${model.deploymentTime}"></td>
             <td>
-                <a th:href="@{/editor(modelId=${model.id})}">挂起</a>
-                <a th:href="@{/publishModel(modelId=${model.id})}">激活</a>
-                <a th:href="@{/revokePublish(modelId=${model.id})}">删除</a>
-                <a th:href="@{/downloadModel(modelId=${model.id})}">查看BPMN图</a>
+                <a th:href="@{/operator/suspendDeployment/{id}(id=${model.id})}">挂起</a>
+                <a th:href="@{/operator/activeDeployment/{id}(id=${model.id})}">激活</a>
+                <a th:href="@{/operator/deleteDeployment/{id}(id=${model.id})}">删除</a>
+                <a th:href="@{/operator/getBpmn/{id}(id=${model.id})}">查看BPMN图</a>
             </td>
         </tr>
     </table>
