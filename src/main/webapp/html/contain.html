@@ -1,0 +1,22 @@
+<html xmlns="http://java.sun.com/jsf/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <title>Title</title>
+</head>
+<body>
+<center><h1 style="color: #b9393f;">个人管理</h1>
+    <span>当前登录用户为<font th:text="${session.person.name}"></font></span>
+</center>
+<hr/>
+<center>
+    <table border="3" cellpadding="0">
+        <tr>
+            <th>我的申请</th>
+            <th>我的待办</th>
+            <th><a href="workflow/listAllBpmn">可参与的流程</a></th>
+        </tr>
+    </table>
+</center>
+</body>
+</html>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>

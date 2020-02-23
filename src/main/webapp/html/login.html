@@ -1,0 +1,47 @@
+<html xmlns="http://java.sun.com/jsf/html">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <title>Title</title>
+</head>
+<body>
+<center><h1 style="color: #b9393f;">登录</h1></center>
+<hr/>
+<center>
+    <table border="3" cellpadding="0">
+        <tr>
+            <th>账号：</th>
+            <th><input id="account" type="text"/></th>
+        </tr>
+        <tr>
+            <th>密码：</th>
+            <th><input id="pwd" type="password"/></th>
+        </tr>
+    </table>
+    <button id="login">登录</button>
+</center>
+</body>
+</html>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script>
+    $("#login").click(function () {
+        var person = {};
+        person.id = $("#account").val();
+        person.password = $("#pwd").val();
+        $.ajax({
+            url: "/person/check",
+            type: "POST",
+            async: false,
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(person),
+            success: function (msg) {
+                alert(msg);
+                window.location.href = "/workflow/contain";
+            },
+            error: function (msg) {
+                alert("登录错误");
+                window.location.href = "/workflow/contain";
+            }
+        });
+    });
+</script>

@@ -3,6 +3,7 @@ package com.sdt.workflow.manager.service.impl;
 import com.sdt.workflow.manager.service.ActivitiManagerService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,10 @@ public class ActivitiManagerServiceImpl implements ActivitiManagerService {
 
         List<Deployment> list = repositoryService.createDeploymentQuery().orderByDeploymenTime().desc().list();
         return list;
+    }
+
+    @Override
+    public List<ProcessDefinition> listAllBpmn() {
+        return repositoryService.createProcessDefinitionQuery().active().list();
     }
 }

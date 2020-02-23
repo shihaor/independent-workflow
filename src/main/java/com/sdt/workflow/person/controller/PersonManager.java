@@ -5,11 +5,12 @@ import com.sdt.workflow.person.service.PersonManagerService;
 import com.sdt.workflow.person.vo.Person;
 import com.sdt.workflow.utils.JsonUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 人员登录注销等接口
@@ -25,10 +26,15 @@ public class PersonManager {
     @Resource
     private PersonManagerService personManagerService;
 
-    @GetMapping("/login")
-    public String Login(@RequestBody Person person) throws Exception {
+    @RequestMapping("/loginPage")
+    public String loginPage() {
+        return "login.html";
+    }
 
-        personManagerService.checkPassword(person);
+    @PostMapping("/check")
+    public String check(@RequestBody Person person, HttpServletRequest request) throws Exception {
+
+        personManagerService.checkPassword(person, request);
         return JsonUtil.genJsonSuccess(true);
     }
 

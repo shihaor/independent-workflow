@@ -2,6 +2,7 @@ package com.sdt.workflow.manager.controller;
 
 import com.sdt.workflow.manager.service.ActivitiManagerService;
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,5 +32,16 @@ public class ActivitiManagerController {
         return "deployment.html";
     }
 
+    @GetMapping("/contain")
+    public String contain() {
+        return "contain.html";
+    }
 
+    @GetMapping("/listAllBpmn")
+    public String listAllBpmn(Model model) {
+
+        List<ProcessDefinition> resultList = activitiManagerService.listAllBpmn();
+        model.addAttribute("list", resultList);
+        return "allBpmn.html";
+    }
 }

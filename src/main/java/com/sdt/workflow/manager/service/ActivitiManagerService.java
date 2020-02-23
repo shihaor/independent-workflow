@@ -1,6 +1,7 @@
 package com.sdt.workflow.manager.service;
 
 import org.activiti.engine.repository.Deployment;
+import org.activiti.engine.repository.ProcessDefinition;
 
 import java.util.List;
 
@@ -18,4 +19,12 @@ public interface ActivitiManagerService {
      * @return 已部署的资源
      */
     List<Deployment> findAllDeployments();
+
+    /**
+     * 列出所有未被挂起的流程
+     *
+     * @return 未被挂起的流程资源
+     */
+    List<ProcessDefinition> listAllBpmn();
+
 }
