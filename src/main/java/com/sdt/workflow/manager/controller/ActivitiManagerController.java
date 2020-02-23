@@ -42,6 +42,6 @@ public class ActivitiManagerController {
 
         List<ProcessDefinition> resultList = activitiManagerService.listAllBpmn();
         model.addAttribute("list", resultList);
-        return "allBpmn.html";
+        return "listAllBpmn.html";
     }
 }
