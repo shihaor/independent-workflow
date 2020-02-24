@@ -1,7 +1,7 @@
 package com.sdt.workflow.core.service.impl;
 
 import com.sdt.workflow.core.service.CompleteActivitiService;
-import com.sdt.workflow.core.utils.ActivitiUtil;
+import com.sdt.workflow.utils.ActivitiUtil;
 import org.activiti.engine.FormService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.TaskService;
@@ -45,7 +45,6 @@ public class CompleteActivitiServiceImpl implements CompleteActivitiService {
         for (int i = 0; i < propertyList.size(); i++) {
             map.put(propertyList.get(i).getId(), context[i]);
         }
-
         taskService.complete(taskId, map);
     }
 }

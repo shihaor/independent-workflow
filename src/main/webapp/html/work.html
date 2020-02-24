@@ -37,9 +37,7 @@
             url: "/workflow/complete/noForm",
             data: $("#formAsync").serialize(),
             success: function (msg) {
-                if (msg.code == 0) {
-                    alert(msg.data);
-                }
+                window.location.href = "/workflow/contain"
             }
         });
     }

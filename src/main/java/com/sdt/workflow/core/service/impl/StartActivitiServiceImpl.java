@@ -2,9 +2,12 @@ package com.sdt.workflow.core.service.impl;
 
 import com.sdt.workflow.core.service.StartActivitiService;
 import com.sdt.workflow.person.vo.Person;
-import org.activiti.engine.*;
+import com.sdt.workflow.utils.ActivitiUtil;
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.form.FormProperty;
-import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.context.annotation.Scope;
@@ -38,7 +41,7 @@ public class StartActivitiServiceImpl implements StartActivitiService {
     private IdentityService identityService;
 
     @Resource
-    private FormService formService;
+    private ActivitiUtil activitiUtil;
 
     @Resource
     private HttpServletRequest request;
@@ -56,10 +59,15 @@ public class StartActivitiServiceImpl implements StartActivitiService {
         // 如果有内置表单，将这个节点的内置表单返回给前端
         Task task = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).singleResult();
         taskService.claim(task.getId(), person.getId());
-        TaskFormData taskFormData = formService.getTaskFormData(task.getId());
-        List<FormProperty> propertyList = taskFormData.getFormProperties();
+        // 获取内置表单
+        List<FormProperty> propertyList = activitiUtil.getFormProperties(task.getId());
         map.put("list", propertyList);
         map.put("taskId", task.getId());
         return map;
+    }
+
+    @Override
+    public List<FormProperty> normalTask(String taskId) {
+        return activitiUtil.getFormProperties(taskId);
     }
 }

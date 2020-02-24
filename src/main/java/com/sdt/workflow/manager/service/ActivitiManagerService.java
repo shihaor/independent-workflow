@@ -2,6 +2,7 @@ package com.sdt.workflow.manager.service;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Task;
 
 import java.util.List;
 
@@ -27,4 +28,10 @@ public interface ActivitiManagerService {
      */
     List<ProcessDefinition> listAllBpmn();
 
+    /**
+     * 获取流转到登录者身上的任务
+     *
+     * @return
+     */
+    List<Task> listMyTask();
 }

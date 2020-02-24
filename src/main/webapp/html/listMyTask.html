@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <title>代办任务列表</title>
+</head>
+<body>
+<h1 th:text="${session.person.name}"></h1>
+<h2><a href="/person/out">退出</a></h2>
+<hr/>
+<table border="3" cellpadding="0">
+    <tr>
+        <td>流程实例id</td>
+        <td>任务名字</td>
+        <td>任务描述</td>
+        <td>操作</td>
+    </tr>
+    <tr th:each="li, gStat: ${list}">
+        <td th:text="${li.processInstanceId}"></td>
+        <td th:text="${li.name}"></td>
+        <td th:text="${li.description}"></td>
+        <td><a th:href="@{/workflow/start/normalTask/{id}(id=${li.id})}">办理</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
