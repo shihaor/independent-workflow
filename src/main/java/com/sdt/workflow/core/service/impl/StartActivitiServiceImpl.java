@@ -2,17 +2,17 @@ package com.sdt.workflow.core.service.impl;
 
 import com.sdt.workflow.core.service.StartActivitiService;
 import com.sdt.workflow.person.vo.Person;
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.*;
+import org.activiti.engine.form.FormProperty;
+import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Task;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 工作流启动实现类
@@ -37,14 +37,24 @@ public class StartActivitiServiceImpl implements StartActivitiService {
     private IdentityService identityService;
 
     @Resource
+    private FormService formService;
+
+    @Resource
     private HttpServletRequest request;
 
     @Override
-    public void noForm(String deploymentId) {
+    public List<FormProperty> noForm(String processDefineId) {
         // 需要从session中获取人员
-        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).singleResult();
-        ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefinition.getId());
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefineId);
         Person person = (Person) request.getSession().getAttribute("person");
+        // 将流程绑定到流程的启动者身上
         identityService.setAuthenticatedUserId(person.getId());
+        // 添加启动人
+        repositoryService.addCandidateStarterUser(processDefineId, person.getId());
+        // 如果有内置表单，将这个节点的内置表单返回给前端
+        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).singleResult();
+        TaskFormData taskFormData = formService.getTaskFormData(task.getId());
+        List<FormProperty> propertyList = taskFormData.getFormProperties();
+        return propertyList;
     }
 }

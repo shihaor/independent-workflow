@@ -1,5 +1,9 @@
 package com.sdt.workflow.core.service;
 
+import org.activiti.engine.form.FormProperty;
+
+import java.util.List;
+
 /**
  * 工作流启动接口
  *
@@ -11,7 +15,8 @@ public interface StartActivitiService {
     /**
      * 无表单启动
      *
-     * @param deploymentId 部署id
+     * @param processDefineId 流程定义id
+     * @return 节点中的表单数据
      */
-    void noForm(String deploymentId);
+    List<FormProperty> noForm(String processDefineId);
 }

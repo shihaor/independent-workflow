@@ -20,8 +20,9 @@
         <tr th:each="li, gStat: ${list}">
             <td th:text="${li.name}"></td>
             <td>
-                <p hidden id="processDefineId" th:text="${li.id}"></p>
-                <button id="start">无表单启动</button>
+                <!--<button id="start">-->
+                <!--<p hidden id="processDefineId" th:text="${li.id}"></p>无表单启动</button>-->
+                <a th:href="@{/workflow/start/noForm/${li.id}}">启动</a>
             </td>
         </tr>
     </table>
@@ -30,16 +31,18 @@
 </html>
 <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 <script>
-    $("#start").click(function () {
-        var id = $(this).find("p").text();
-        $.ajax({
-            url: "/workflow/start//noForm/" + id,
-            type: "POST",
-            dataType: "json",
-            contentType: "application/json",
-            success: function (msg) {
-                alert("启动成功");
-            }
-        });
-    });
+    // $("#start").click(function () {
+    //     var id = $(this).find("p").text();
+    //     alert(id);
+    //     $.ajax({
+    //         url: "/workflow/start/noForm/" + id,
+    //         type: "POST",
+    //         async: false,
+    //         dataType: "json",
+    //         contentType: "application/json",
+    //         success: function (msg) {
+    //             alert("启动成功");
+    //         }
+    //     });
+    // });
 </script>

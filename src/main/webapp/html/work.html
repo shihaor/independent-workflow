@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <title>已领取任务列表</title>
+</head>
+<body>
+<h1 th:text="${session.person.name}"></h1>
+<h2><a href="/person/out">退出</a></h2>
+<hr/>
+<form id="formAsync" onsubmit="return false">
+    <input hidden name="task" th:value="${taskId}"></input>
+    <table border="3" cellpadding="0">
+        <tr th:each="li:${list}">
+            <td th:text="${li.name}"></td>
+            <td th:text="${li.type}">类型：</td>
+            <td><input name="context" type="text"/>
+            </td>
+        </tr>
+    </table>
+</form>
+<!--&lt;!&ndash;<div id="pop_content" class="alert">&ndash;&gt;-->
+<!--&lt;!&ndash;<div&ndash;&gt;-->
+<!--</div>-->
+</body>
+</html>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script>
+    function requestAsync() {
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/workflow/complete/noForm",
+            data: $("#formAsync").serialize(),
+            success: function (msg) {
+                if (msg.code == 0) {
+                    alert(msg.data);
+                }
+            }
+        });
+    }
+</script>

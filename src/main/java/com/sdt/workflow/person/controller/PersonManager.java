@@ -38,4 +38,11 @@ public class PersonManager {
         return JsonUtil.genJsonSuccess(true);
     }
 
+    @PostMapping("/out")
+    public String out(@RequestBody Person person, HttpServletRequest request) throws Exception {
+
+        request.getSession().removeAttribute("person");
+        return JsonUtil.genJsonSuccess(true);
+    }
+
 }

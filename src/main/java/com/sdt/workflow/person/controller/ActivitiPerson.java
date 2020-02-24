@@ -1,5 +1,6 @@
 package com.sdt.workflow.person.controller;
 
+import com.sdt.workflow.annotation.LoginComponent;
 import com.sdt.workflow.person.service.ActivitiPersonService;
 import com.sdt.workflow.person.vo.Person;
 import com.sdt.workflow.utils.JsonUtil;
@@ -17,6 +18,7 @@ import javax.annotation.Resource;
  * @date 2020/2/22
  */
 @Controller
+@LoginComponent
 @RequestMapping("/workflow/person")
 public class ActivitiPerson {
 

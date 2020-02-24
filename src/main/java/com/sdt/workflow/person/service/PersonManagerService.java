@@ -19,4 +19,5 @@ public interface PersonManagerService {
      * @param request 上下文请求信息
      */
     void checkPassword(Person person, HttpServletRequest request);
+
 }
