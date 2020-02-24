@@ -1,6 +1,5 @@
 package com.sdt.modeler.service;
 
-import clojure.lang.IFn;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -13,7 +12,6 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
-import org.activiti.engine.runtime.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -122,13 +120,14 @@ public class OperatorModelService {
         }
         JsonNode modelNode = new ObjectMapper().readTree(source);
         BpmnModel model = new BpmnJsonConverter().convertToBpmnModel(modelNode);
-        List<Deployment> deploymentList = repositoryService.createDeploymentQuery().list();
-        deploymentList.forEach(deployment -> {
-            if (deployment.getName().equals(modelData.getName())) {
-                LOGGER.error("流程部署入参modelId：{},部署失败，名字重复", modelId);
-                throw new ActivitiException("deploy fail,because name is Duplicate");
-            }
-        });
+        // 防止重复部署
+//        List<Deployment> deploymentList = repositoryService.createDeploymentQuery().list();
+//        deploymentList.forEach(deployment -> {
+//            if (deployment.getName().equals(modelData.getName())) {
+//                LOGGER.error("流程部署入参modelId：{},部署失败，名字重复", modelId);
+//                throw new ActivitiException("deploy fail,because name is Duplicate");
+//            }
+//        });
         // 这里可以调用项目中的部署方法
         Deployment deploy = repositoryService.createDeployment().name(modelData.getName()).addBpmnModel(modelData.getKey()
                 + ".bpmn20.xml", model).enableDuplicateFiltering().deploy();

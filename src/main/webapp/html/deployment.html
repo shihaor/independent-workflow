@@ -19,19 +19,19 @@
             <td th:text="${model.name}"></td>
             <td th:text="${model.deploymentTime}"></td>
             <td>
-                <button id="suspend">
+                <button class="suspend">
                     <p hidden id="modelId" th:text="${model.id}"></p>
                     挂起
                 </button>
-                <button id="active">
+                <button class="active">
                     <p hidden id="modelId" th:text="${model.id}"></p>
                     激活
                 </button>
-                <button id="delete">
+                <button class="delete">
                     <p hidden id="modelId" th:text="${model.id}"></p>
                     删除
                 </button>
-                <button id="getBpmn">
+                <button class="getBpmn">
                     <p hidden id="modelId" th:text="${model.id}"></p>
                     查看BPMN图
                 </button>
@@ -45,7 +45,7 @@
 <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 <script>
     // 挂起
-    $("#suspend").click(function () {
+    $(".suspend").click(function () {
         var id = $(this).find("p").text();
         $.ajax({
             url: "/operator/suspendDeployment/" + id,
@@ -59,7 +59,7 @@
         });
     });
     // 激活
-    $("#active").click(function () {
+    $(".active").click(function () {
         var id = $(this).find("p").text();
         $.ajax({
             url: "/operator/activeDeployment/" + id,
@@ -73,8 +73,9 @@
         });
     });
     // 删除
-    $("#delete").click(function () {
+    $(".delete").click(function () {
         var id = $(this).find("p").text();
+        alert(id);
         $.ajax({
             url: "/operator/deleteDeployment/" + id,
             type: "POST",
@@ -87,7 +88,7 @@
         });
     });
     // 获取bpmn图片
-    $("#getBpmn").click(function () {
+    $(".getBpmn").click(function () {
         var id = $(this).find("p").text();
         $("#image").attr("src", "/operator/getBpmn/" + id);
         $("#image").show();

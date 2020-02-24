@@ -49,7 +49,8 @@ public class DeploymentOperatorServiceImpl implements DeploymentOperatorService 
     public void deleteDeployment(String id) {
 
         try {
-            repositoryService.deleteDeployment(id);
+            // 连带历史记录都删除
+            repositoryService.deleteDeployment(id, true);
         } catch (Exception e) {
             throw new ActivitiException("删除失败");
         }
