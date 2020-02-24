@@ -25,8 +25,10 @@ public class CompleteActiviti {
     @PostMapping("/noForm")
     public void noForm(HttpServletRequest request) {
         //接收表单填写内容
-        String[] arg = request.getParameterValues("context");
+        String[] context = request.getParameterValues("context");
         //流程实例id
         String taskId = request.getParameter("task");
+
+        completeActivitiService.noForm(context, taskId);
     }
 }

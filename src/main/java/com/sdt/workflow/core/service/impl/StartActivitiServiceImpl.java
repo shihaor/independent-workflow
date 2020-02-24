@@ -53,6 +53,7 @@ public class StartActivitiServiceImpl implements StartActivitiService {
         repositoryService.addCandidateStarterUser(processDefineId, person.getId());
         // 如果有内置表单，将这个节点的内置表单返回给前端
         Task task = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).singleResult();
+        taskService.claim(task.getId(), person.getId());
         TaskFormData taskFormData = formService.getTaskFormData(task.getId());
         List<FormProperty> propertyList = taskFormData.getFormProperties();
         return propertyList;
