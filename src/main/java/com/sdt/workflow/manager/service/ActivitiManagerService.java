@@ -1,5 +1,6 @@
 package com.sdt.workflow.manager.service;
 
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Task;
@@ -34,4 +35,11 @@ public interface ActivitiManagerService {
      * @return
      */
     List<Task> listMyTask();
+
+    /**
+     * 列出我申请过的流程
+     *
+     * @return 流程实例集合
+     */
+    List<HistoricProcessInstance> listMyApply();
 }

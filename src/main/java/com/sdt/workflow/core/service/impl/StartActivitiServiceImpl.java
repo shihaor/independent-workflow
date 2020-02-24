@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,16 +44,16 @@ public class StartActivitiServiceImpl implements StartActivitiService {
     private ActivitiUtil activitiUtil;
 
     @Resource
-    private HttpServletRequest request;
+    private HttpSession session;
 
     @Override
     public HashMap<String, Object> noForm(String processDefineId) {
         HashMap<String, Object> map = new HashMap<>(2);
         // 需要从session中获取人员
-        ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefineId);
-        Person person = (Person) request.getSession().getAttribute("person");
+        Person person = (Person) session.getAttribute("person");
         // 将流程绑定到流程的启动者身上
         identityService.setAuthenticatedUserId(person.getId());
+        ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefineId);
         // 添加启动人
         repositoryService.addCandidateStarterUser(processDefineId, person.getId());
         // 如果有内置表单，将这个节点的内置表单返回给前端

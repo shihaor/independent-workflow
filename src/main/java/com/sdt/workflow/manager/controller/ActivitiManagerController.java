@@ -1,6 +1,7 @@
 package com.sdt.workflow.manager.controller;
 
 import com.sdt.workflow.manager.service.ActivitiManagerService;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Task;
@@ -36,6 +37,13 @@ public class ActivitiManagerController {
         List<Deployment> resultList = activitiManagerService.findAllDeployments();
         model.addAttribute("modelList", resultList);
         return "deployment.html";
+    }
+
+    @GetMapping("/listMyApply")
+    public String listMyApply(Model model) {
+        List<HistoricProcessInstance> resultList = activitiManagerService.listMyApply();
+        model.addAttribute("list", resultList);
+        return "listMyApply.html";
     }
 
     @GetMapping("/listMyTask")
