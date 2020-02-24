@@ -1,8 +1,6 @@
 package com.sdt.workflow.core.service;
 
-import org.activiti.engine.form.FormProperty;
-
-import java.util.List;
+import java.util.HashMap;
 
 /**
  * 工作流启动接口
@@ -16,7 +14,7 @@ public interface StartActivitiService {
      * 无表单启动
      *
      * @param processDefineId 流程定义id
-     * @return 节点中的表单数据
+     * @return 节点中的表单数据 和 节点id
      */
-    List<FormProperty> noForm(String processDefineId);
+    HashMap<String, Object> noForm(String processDefineId);
 }

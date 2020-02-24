@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,7 +44,8 @@ public class StartActivitiServiceImpl implements StartActivitiService {
     private HttpServletRequest request;
 
     @Override
-    public List<FormProperty> noForm(String processDefineId) {
+    public HashMap<String, Object> noForm(String processDefineId) {
+        HashMap<String, Object> map = new HashMap<>(2);
         // 需要从session中获取人员
         ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefineId);
         Person person = (Person) request.getSession().getAttribute("person");
@@ -56,6 +58,8 @@ public class StartActivitiServiceImpl implements StartActivitiService {
         taskService.claim(task.getId(), person.getId());
         TaskFormData taskFormData = formService.getTaskFormData(task.getId());
         List<FormProperty> propertyList = taskFormData.getFormProperties();
-        return propertyList;
+        map.put("list", propertyList);
+        map.put("taskId", task.getId());
+        return map;
     }
 }

@@ -22,7 +22,7 @@
             <td>
                 <!--<button id="start">-->
                 <!--<p hidden id="processDefineId" th:text="${li.id}"></p>无表单启动</button>-->
-                <a th:href="@{/workflow/start/noForm/${li.id}}">启动</a>
+                <a th:href="@{/workflow/start/noForm/{id}(id=${li.id})}">启动</a>
             </td>
         </tr>
     </table>

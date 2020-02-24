@@ -5,6 +5,7 @@ import com.sdt.workflow.person.service.PersonManagerService;
 import com.sdt.workflow.person.vo.Person;
 import com.sdt.workflow.utils.JsonUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +39,7 @@ public class PersonManager {
         return JsonUtil.genJsonSuccess(true);
     }
 
-    @PostMapping("/out")
+    @GetMapping("/out")
     public String out(@RequestBody Person person, HttpServletRequest request) throws Exception {
 
         request.getSession().removeAttribute("person");
