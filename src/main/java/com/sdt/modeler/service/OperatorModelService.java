@@ -3,6 +3,7 @@ package com.sdt.modeler.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.sdt.modeler.vo.ModelVO;
 import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -180,5 +182,32 @@ public class OperatorModelService {
         JsonNode modelNode = mapper.readTree(source);
         BpmnModel bpmnModel = new BpmnJsonConverter().convertToBpmnModel(modelNode);
         return new BpmnXMLConverter().convertToXML(bpmnModel);
+    }
+
+    /**
+     * 获取所有Bpmn图片
+     *
+     * @return
+     */
+    public List<ModelVO> findAllModelIdList() {
+        List<Model> list = repositoryService.createModelQuery().list();
+        List<ModelVO> modelIdList = new ArrayList<>();
+        list.forEach(model -> {
+            ModelVO modelVO = new ModelVO();
+            modelVO.setModelId(model.getId());
+            modelVO.setName(model.getName());
+            modelIdList.add(modelVO);
+        });
+        return modelIdList;
+    }
+
+    /**
+     * 获取二进制图片
+     *
+     * @param modelId 模型Id
+     * @return
+     */
+    public byte[] getPng(String modelId) {
+        return repositoryService.getModelEditorSourceExtra(modelId);
     }
 }

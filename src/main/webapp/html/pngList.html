@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="../css/main.css" rel="stylesheet" type="text/css">
+    <link href="../lib/layui/css/layui.css" media="all" rel="stylesheet">
+    <script src="../lib/layui/layui.js" type="text/javascript"></script>
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
+          name="viewport">
+    <meta content="IE=Edge,chrome=1" http-equiv="X-UA-Compatible">
+    <style type="text/css">
+        img:hover {
+            transform: scale(1.02, 1.02)
+        }
+    </style>
+</head>
+<body>
+
+<div class="content content-nav-base buytoday-content">
+    <div id="list-cont">
+        <div class="product-list-box">
+            <div class="product-list w1200">
+                <div class="list-cont" cont='tuangou' th:each="li:${list}">
+                    <div class="item">
+                        <img alt="" style="width: 653px; height: 445px" th:src="@{/getPng/{id}(id=${li.modelId})}">
+                        <div class="text-box">
+                            <p class="title" th:text="${li.name}"></p>
+                        </div>
+                    </div>
+                </div>
+                <div id="demo0" style="text-align: center;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

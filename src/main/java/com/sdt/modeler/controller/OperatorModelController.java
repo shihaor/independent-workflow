@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,11 +28,27 @@ public class OperatorModelController {
     @Resource
     private OperatorModelService operatorModelService;
 
-    @RequestMapping("/index")
-    public String index(Model model) {
+    @GetMapping("/fontList")
+    public String fontList(Model model) {
         List<org.activiti.engine.repository.Model> resultList = operatorModelService.findAllModel();
         model.addAttribute("modelList", resultList);
-        return "home.html";
+        return "fontList.html";
+    }
+
+    @GetMapping("/modelIdList")
+    public String modelIdList(Model model) {
+        List<ModelVO> modelIdList = operatorModelService.findAllModelIdList();
+        model.addAttribute("list", modelIdList);
+        return "pngList.html";
+    }
+
+    @GetMapping("/getPng/{id}")
+    public void pngList(@PathVariable("id") String modelId, HttpServletResponse response) throws IOException {
+        byte[] png = operatorModelService.getPng(modelId);
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(png);
+            outputStream.flush();
+        }
     }
 
     @GetMapping("/editor")
