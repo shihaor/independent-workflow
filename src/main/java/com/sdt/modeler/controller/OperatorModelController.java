@@ -1,5 +1,6 @@
 package com.sdt.modeler.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sdt.modeler.service.OperatorModelService;
 import com.sdt.modeler.vo.ModelVO;
 import com.sdt.workflow.utils.JsonUtil;
@@ -29,10 +30,21 @@ public class OperatorModelController {
     private OperatorModelService operatorModelService;
 
     @GetMapping("/fontList")
-    public String fontList(Model model) {
-        List<org.activiti.engine.repository.Model> resultList = operatorModelService.findAllModel();
-        model.addAttribute("modelList", resultList);
+    public String fontList() {
         return "fontList.html";
+    }
+
+    /**
+     * 不加produces前端layui解析JSON乱码
+     *
+     * @return 模型数据
+     * @throws JsonProcessingException json转化错误
+     */
+    @ResponseBody
+    @GetMapping(value = "/listModel", produces = "application/json;charset=UTF-8")
+    public String listModel() throws JsonProcessingException {
+        List<org.activiti.engine.repository.Model> resultList = operatorModelService.findAllModel();
+        return JsonUtil.genJsonList(resultList);
     }
 
     @GetMapping("/modelIdList")
@@ -56,11 +68,11 @@ public class OperatorModelController {
         return "modeler.html";
     }
 
-    @ResponseBody
     @GetMapping(value = "/getModelId")
-    public String getModelId() throws Exception {
+    public String getModelId(Model model) throws Exception {
         String modelId = operatorModelService.getModelId();
-        return JsonUtil.genJsonSuccess(modelId);
+        model.addAttribute("modelId", modelId);
+        return "addModel.html";
     }
 
     @ResponseBody

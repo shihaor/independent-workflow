@@ -49,7 +49,7 @@ public class JsonUtil {
      */
     public static String genJsonSuccess(Object results) throws Exception {
         LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
-        map.put("success", true);
+        map.put("code", 0);
         map.put("msg", "ok");
         map.put("data", results);
         String json = objectMapper.writeValueAsString(map);
@@ -65,7 +65,7 @@ public class JsonUtil {
      */
     public static String genJsonSuccess(String msg) throws Exception {
         LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
-        map.put("success", true);
+        map.put("code", 0);
         map.put("msg", msg);
         String json = objectMapper.writeValueAsString(map);
         map.clear();
@@ -236,7 +236,14 @@ public class JsonUtil {
      * @throws JsonProcessingException JSON转换异常
      */
     public static String genJsonList(List list) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(list);
+
+        LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("total", list.size());
+        map.put("rows", list);
+        String json = objectMapper.writeValueAsString(map);
+        return json;
     }
 
     public static String genJsonFail(String msg) throws Exception {

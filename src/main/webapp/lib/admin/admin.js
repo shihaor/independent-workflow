@@ -689,11 +689,12 @@
                     limits: [10, 30, 50, 200],
                     defaultToolbar: _defaultToolbar, //打印 导出
                     data: _data,
-                    parseData: function (res) { //将原始数据解析成 table 组件所规定的数据
+                    parseData: function (res) { //将
+                        alert(res);// 原始数据解析成 table 组件所规定的数据
                         if (typeof (res.total) === 'number' && typeof (res.rows) === 'object') {
                             return {
-                                "code": 0, //解析接口状态
-                                "msg": '', //解析提示文本
+                                "code": res.code, //解析接口状态
+                                "msg": res.msg, //解析提示文本
                                 "count": res.total, //解析数据长度
                                 "data": res.rows //解析数据列表
                             };
