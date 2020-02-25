@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author shihaoran
@@ -25,7 +25,7 @@ public class PersonManagerServiceImpl implements PersonManagerService {
     private IdentityService identityService;
 
     @Resource
-    private HttpSession session;
+    private HttpServletRequest request;
 
     @Override
     public void checkPassword(Person person) {
@@ -36,6 +36,6 @@ public class PersonManagerServiceImpl implements PersonManagerService {
         }
         User user = identityService.createUserQuery().userId(person.getId()).singleResult();
         person.setName(user.getFirstName());
-        session.setAttribute("person", person);
+        request.getSession().setAttribute("person", person);
     }
 }

@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @Controller
 @LoginComponent
-@RequestMapping("/workflow/org")
+@RequestMapping("/org")
 public class ActivitiOrganize {
 
     @Resource

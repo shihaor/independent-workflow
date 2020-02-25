@@ -12,17 +12,12 @@
         <td>流程实例id</td>
         <td>任务名字</td>
         <td>任务描述</td>
-        <td>任务状态</td>
         <td>操作</td>
     </tr>
     <tr th:each="li, gStat: ${list}">
         <td th:text="${li.id}"></td>
         <td th:text="${li.processDefinitionName}"></td>
         <td th:text="${li.description}"></td>
-        <td th:switch="${li.endActivityId}">
-            <font th:if="${li.endActivityId}!=null">未完成</font>
-            <font th:if="${li.endActivityId}==null">未完成</font>
-        </td>
         <td>查看</a>
         </td>
     </tr>

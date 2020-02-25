@@ -64,7 +64,7 @@ dependencies {
     compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.11.RELEASE'
 
     // logback
-    compile group: 'ch.qos.logback', name: 'logback-classic', version: "${logbackVersion}"
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
 
     // servlet
     providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
@@ -76,5 +76,8 @@ dependencies {
     compile group: 'org.apache.xmlgraphics', name: 'batik-css', version: "${xmlgraphicsVersion}"
     compile group: 'org.apache.xmlgraphics', name: 'batik-svg-dom', version: "${xmlgraphicsVersion}"
     compile group: 'org.apache.xmlgraphics', name: 'batik-svggen', version: "${xmlgraphicsVersion}"
+
+    // https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit
+    compile group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '5.6.0.201912101111-r'
 
 }

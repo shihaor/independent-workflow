@@ -5,10 +5,12 @@ import com.sdt.workflow.person.vo.Person;
 import com.sdt.workflow.utils.ActivitiUtil;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public class ActivitiManagerServiceImpl implements ActivitiManagerService {
 
     @Resource
     private RepositoryService repositoryService;
+
+    @Resource
+    private RuntimeService runtimeService;
 
     @Resource
     private TaskService taskService;
@@ -67,5 +72,11 @@ public class ActivitiManagerServiceImpl implements ActivitiManagerService {
         Person person = (Person) session.getAttribute("person");
         return historyService.createHistoricProcessInstanceQuery().startedBy(person.getId()).list();
 
+    }
+
+    @Override
+    public List<ProcessInstance> listMyApplyUnOver() {
+        Person person = (Person) session.getAttribute("person");
+        return runtimeService.createProcessInstanceQuery().startedBy(person.getId()).list();
     }
 }

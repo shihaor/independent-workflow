@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta content="webkit|ie-comp|ie-stand" name="renderer">
+    <meta content="IE=edge,chrome=1" http-equiv="hg-UA-Compatible">
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="no-siteapp" http-equiv="Cache-Control"/>
+    <link href="../../css/font.css" rel="stylesheet">
+    <link href="../../lib/layui/css/layui.css" media="all" rel="stylesheet">
+    <link href="../../lib/admin/admin.css" media="all" rel="stylesheet">
+    <link href="../../lib/Scrollbar/jquery.scrollbar.css" rel="stylesheet">
+    <script src="../../lib/admin/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="../../lib/Scrollbar/jquery.scrollBar.js" type="text/javascript"></script>
+    <script src="../../lib/layui/layui.js" type="text/javascript"></script>
+    <script src="../../lib/admin/admin.js" type="text/javascript"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .layui-backlog .layui-backlog-body {
+            display: block;
+            padding: 10px 15px;
+            background-color: #f8f8f8;
+            color: #999;
+            border-radius: 2px;
+            transition: all .3s;
+            -webkit-transition: all .3s
+        }
+
+        .layui-backlog-body h3 {
+            padding-bottom: 10px;
+            font-size: 12px
+        }
+
+        .layui-backlog-body p cite {
+            font-style: normal;
+            font-size: 30px;
+            font-weight: 300;
+            color: #333
+        }
+
+        .layui-backlog-body:hover {
+            background-color: #CFCFCF;
+            color: #888
+        }
+    </style>
+</head>
+
+<body class="layui-body-content">
+<div class="layui-fluid">
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <blockquote class="layui-elem-quote">欢迎管理员：
+                        <span style="color: red;" th:text="${session.person.name}"></span>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">数据统计</div>
+                <div class="layui-card-body ">
+                    <ul class="layui-row layui-col-space10 layui-this x-admin-carousel layui-backlog">
+                        <li class="layui-col-md2 layui-col-xs6">
+                            <a class="layui-backlog-body" href="javascript:">
+                                <h3>账户数</h3>
+                                <p>
+                                    <cite th:text="${accountNumber}"></cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md2 layui-col-xs6">
+                            <a class="layui-backlog-body" href="javascript:">
+                                <h3>部门数</h3>
+                                <p>
+                                    <cite th:text="${orgNumber}"></cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md2 layui-col-xs6">
+                            <a class="layui-backlog-body" href="javascript:">
+                                <h3>模型数</h3>
+                                <p>
+                                    <cite th:text="${modelNumber}"></cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md2 layui-col-xs6">
+                            <a class="layui-backlog-body" href="javascript:">
+                                <h3>已部署数</h3>
+                                <p>
+                                    <cite th:text="${deploymentNumber}"></cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md2 layui-col-xs6">
+                            <a class="layui-backlog-body" href="javascript:">
+                                <h3>正在执行数</h3>
+                                <p>
+                                    <cite th:text="${runningNumber}"></cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md2 layui-col-xs6 ">
+                            <a class="layui-backlog-body" href="javascript:">
+                                <h3>完结数</h3>
+                                <p>
+                                    <cite th:text="${overNumber}"></cite></p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-col-md12 layui-card scrollBox" lay-height='full-310'>
+                <div class="layui-card-header">
+                    更新日志
+                </div>
+                <div class="layui-card-body">
+                    <ul class="layui-timeline" th:each="li, gStat: ${commitLog}">
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title" th:text="${li.data}">更新</h3>
+                                <p th:text="${li.msg}">
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <style id="welcome_style"></style>
+    </div>
+    <div class="layui-floor">
+        <blockquote class="layui-elem-quote layui-quote-nm">shr
+        </blockquote>
+    </div>
+</div>
+</div>
+</body>
+
+</html>

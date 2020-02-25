@@ -31,7 +31,7 @@ public class OperatorModelController {
     public String index(Model model) {
         List<org.activiti.engine.repository.Model> resultList = operatorModelService.findAllModel();
         model.addAttribute("modelList", resultList);
-        return "index.html";
+        return "home.html";
     }
 
     @GetMapping("/editor")

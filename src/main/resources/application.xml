@@ -25,6 +25,8 @@
         </property>
     </bean>
 
+    <!-- 项目地址 -->
+
     <!--hikari数据连接池-->
     <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
         <property name="jdbcUrl" value="${jdbcUrl}"/>

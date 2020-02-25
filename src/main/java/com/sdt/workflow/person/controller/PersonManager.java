@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @LoginComponent
-@RequestMapping("/person")
+@RequestMapping("/user")
 public class PersonManager {
 
     @Resource
@@ -43,10 +43,10 @@ public class PersonManager {
     }
 
     @GetMapping("/out")
-    public String out(@RequestBody Person person) throws Exception {
+    public String out() {
 
         session.removeAttribute("person");
-        return JsonUtil.genJsonSuccess(true);
+        return "login.html";
     }
 
 }

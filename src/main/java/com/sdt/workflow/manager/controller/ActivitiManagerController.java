@@ -4,6 +4,7 @@ import com.sdt.workflow.manager.service.ActivitiManagerService;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,6 +43,13 @@ public class ActivitiManagerController {
     @GetMapping("/listMyApply")
     public String listMyApply(Model model) {
         List<HistoricProcessInstance> resultList = activitiManagerService.listMyApply();
+        model.addAttribute("list", resultList);
+        return "listMyApply.html";
+    }
+
+    @GetMapping("/listMyApply/unOver")
+    public String listMyApplyUnOver(Model model) {
+        List<ProcessInstance> resultList = activitiManagerService.listMyApplyUnOver();
         model.addAttribute("list", resultList);
         return "listMyApply.html";
     }

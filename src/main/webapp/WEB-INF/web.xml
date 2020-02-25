@@ -12,7 +12,18 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:application.xml</param-value>
     </context-param>
-
+    <!-- 日志组件 -->
+    <context-param>
+        <param-name>WebAppRootKey</param-name>
+        <param-value>webapp.root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>log4j</param-name>
+        <param-value>classpath:log4j.properties</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
+    </listener>
     <filter>
         <filter-name>HttpPutFormContentFilter</filter-name>
         <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>

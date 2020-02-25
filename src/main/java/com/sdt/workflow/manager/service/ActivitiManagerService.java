@@ -3,6 +3,7 @@ package com.sdt.workflow.manager.service;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
 import java.util.List;
@@ -42,4 +43,11 @@ public interface ActivitiManagerService {
      * @return 流程实例集合
      */
     List<HistoricProcessInstance> listMyApply();
+
+    /**
+     * 列出我申请过的未完成的流程
+     *
+     * @return 流程实例集合
+     */
+    List<ProcessInstance> listMyApplyUnOver();
 }
