@@ -50,7 +50,7 @@ public class OperatorModelService {
      * @return 所有模型的集合
      */
     public List<Model> findAllModel() {
-        return repositoryService.createModelQuery().list();
+        return repositoryService.createModelQuery().orderByCreateTime().desc().list();
     }
 
     /**

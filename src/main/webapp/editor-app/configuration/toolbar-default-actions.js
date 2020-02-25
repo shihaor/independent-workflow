@@ -261,7 +261,7 @@ KISBPM.TOOLBAR = {
         },
         
         closeEditor: function(services) {
-            window.location.href = "http://127.0.0.1:9527/index";
+            window.location.href = "http://127.0.0.1:9527/workflow/contain";
         },
         
         /**
@@ -327,7 +327,7 @@ var SaveModelCtrl = [ '$rootScope', '$scope', '$http', '$route', '$location',
     $scope.saveAndClose = function () {
     	$scope.save(function() {
             // window.location.href = "../../html";
-            window.location.href = "http://127.0.0.1:9527/index";
+            window.location.href = "http://127.0.0.1:9527/workflow/contain";
     	});
     };
     $scope.save = function (successCallback) {

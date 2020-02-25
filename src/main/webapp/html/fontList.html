@@ -53,12 +53,12 @@
             </div>
             <div class="">
                 <button class="layui-btn layui-btn-lg layui-btn-normal"
-                        onclick="hg.open('添加模型','./DataGrid-add.html',600,400)"><i
+                        onclick="hg.open('添加模型','/getModelId',600,400)"><i
                         class="layui-icon">&#xe654;</i>添加
                 </button>
-                <button class="layui-btn layui-btn-lg layui-btn-warm" onclick="edit()"><i
-                        class="layui-icon">&#xe642;</i>修改
-                </button>
+                <!--<button class="layui-btn layui-btn-lg layui-btn-warm" onclick="edit()"><i-->
+                <!--class="layui-icon">&#xe642;</i>修改-->
+                <!--</button>-->
                 <button class="layui-btn layui-btn-lg layui-btn-danger" onclick="del()"><i
                         class="layui-icon">&#xe640;</i>删除
                 </button>
@@ -80,7 +80,53 @@
         var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
         console.log(row);
         if (row) {
-            hg.open('修改用户' + row.data.username, './DataGrid-add.html', 600, 400);
+            hg.open('修改模型' + row.data.name, '/editor?modelId=' + row.data.id, 600, 400);
+        } else {
+            hg.msg('请选中一行数据，再操作！');
+        }
+    }
+
+    //发布
+    function publish(obj) {
+        //obj通过行tool删除-lay-event
+        var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
+        if (row) {
+            hg.confirm("发布当前选中的模型，确定要发布吗？", function () {
+                $.ajax({
+                    url: "/publishModel?modelId=" + row.data.id,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg.code == 0) {
+                            hg.msg('发布成功！');
+                            table && table.reload(); //hg.table.datatable('test', 'reload');
+                        }
+                    }
+                });
+            });
+        } else {
+            hg.msg('请选中一行数据，再操作！');
+        }
+    }
+
+    //撤销
+    function revoke(obj) {
+        //obj通过行tool删除-lay-event
+        var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
+        if (row) {
+            hg.confirm("删除当前选中的模型，确定要撤消吗？", function () {
+                $.ajax({
+                    url: "/revokePublish?modelId=" + row.data.id,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg.code == 0) {
+                            hg.msg('撤消成功！');
+                            table && table.reload(); //hg.table.datatable('test', 'reload');
+                        }
+                    }
+                });
+            });
         } else {
             hg.msg('请选中一行数据，再操作！');
         }
@@ -92,9 +138,30 @@
         var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
         if (row) {
             hg.confirm("删除当前选中的用户，确定要删除吗？", function () {
-                //row.del(); //只删本地数据
-                hg.msg('删除成功！');
-                table && table.reload(); //hg.table.datatable('test', 'reload');
+                $.ajax({
+                    url: "/deleteModel?modelId=" + row.data.id,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg.code == 0) {
+                            hg.msg('删除成功！');
+                            table && table.reload(); //hg.table.datatable('test', 'reload');
+                        }
+                    }
+                });
+            });
+        } else {
+            hg.msg('请选中一行数据，再操作！');
+        }
+    }
+
+    //下载
+    function download(obj) {
+        //obj通过行tool删除-lay-event
+        var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
+        if (row) {
+            hg.confirm("下载当前选中的模型，确定要下载吗？", function () {
+                window.location.href = "/downloadModel?modelId=" + row.data.id;
             });
         } else {
             hg.msg('请选中一行数据，再操作！');
@@ -140,13 +207,16 @@
         max: hg.getdate(),
     });
     var tableCols = [[
-        {field: 'id', width: 400, title: '模型ID', sort: true},
-        {field: 'version', width: 400, title: '模型版本', style: 'color: #ff5722;'},
-        {field: 'name', width: 400, title: '模型名字', sort: true},
-        {field: 'key', width: 400, title: '模型key', hide: true},
+        {field: 'id', width: 330, title: '模型ID', sort: true},
+        {field: 'version', width: 330, title: '模型版本', style: 'color: #ff5722;'},
+        {field: 'name', width: 330, title: '模型名字', sort: true},
+        {field: 'createTime', width: 330, title: '创建时间', sort: true},
+        {field: 'key', width: 330, title: '模型key', sort: true},
         {
-            field: 'right', width: 400, title: '操作', templet: function (d) {
-                return '<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>'
+            field: 'right', width: 330, title: '操作', templet: function (d) {
+                return '<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> <a class="layui-btn layui-btn-xs" lay-event="publish">发布</a>' +
+                    ' <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="revoke">撤销</a> <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>' +
+                    '<a class="layui-btn layui-btn-xs" lay-event="download">下载</a>'
             }
         }]
     ];

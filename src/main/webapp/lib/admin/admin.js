@@ -690,7 +690,6 @@
                     defaultToolbar: _defaultToolbar, //打印 导出
                     data: _data,
                     parseData: function (res) { //将
-                        alert(res);// 原始数据解析成 table 组件所规定的数据
                         if (typeof (res.total) === 'number' && typeof (res.rows) === 'object') {
                             return {
                                 "code": res.code, //解析接口状态

@@ -26,40 +26,82 @@
 <body class="layui-body-content">
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form">
-            <div class="layui-form-item">
-                <label class="layui-form-label" for="modelId">
-                    模型号</label>
-                <div class="layui-input-inline">
-                    <span class="layui-input" id="modelId" th:text="${modelId}" type="text"></span>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    由系统生成
-                </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="modelId">
+                模型号</label>
+            <div class="layui-input-inline">
+                <span class="layui-input" id="modelId" th:text="${modelId}" type="text"></span>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" for="L_username">
-                    模型名字</label>
-                <div class="layui-input-inline">
-                    <input autocomplete="off" class="layui-input" id="L_username" lay-verify="nikename" name="username"
-                           required="" type="text"></div>
+            <div class="layui-form-mid layui-word-aux">
+                由系统生成
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label" for="L_pass">
-                    模型的key</label>
-                <div class="layui-input-inline">
-                    <input autocomplete="off" class="layui-input" id="L_pass" lay-verify="username" name="pass"
-                           required=""
-                           type="password"></div>
-                <div class="layui-form-mid layui-word-aux">6到16个字符，可以不唯一</div>
-            </div>
-            <div class="layui-form-item">
-                <button class="layui-btn" lay-filter="add" lay-submit="">增加</button>
-            </div>
-        </form>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="L_username">
+                模型名字</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="L_username" lay-verify="nikename" name="username"
+                       required="" type="text"></div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" for="L_pass">
+                模型的key</label>
+            <div class="layui-input-inline">
+                <input autocomplete="off" class="layui-input" id="L_pass" lay-verify="username" name="pass"
+                       required=""
+                       type="password"></div>
+            <div class="layui-form-mid layui-word-aux">6到16个字符，可以不唯一</div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" id="play">增加</button>
+        </div>
     </div>
 </div>
 <script>
+    //发布
+    function publish(obj) {
+        //obj通过行tool删除-lay-event
+        var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
+        if (row) {
+            hg.confirm("发布当前选中的模型，确定要发布吗？", function () {
+                $.ajax({
+                    url: "/publishModel?modelId=" + row.data.id,
+                    type: "POST",
+                    dataType: "json",
+                    success: function (msg) {
+                        if (msg.code == 0) {
+                            //hg.table.datatable('test', 'reload');
+                        }
+                    }
+                });
+            });
+        } else {
+            hg.msg('请选中一行数据，再操作！');
+        }
+    }
+
+    /** 增 */
+    $("#play").click(function () {
+        var name = $("#name").val();
+        var key = $("#key").val();
+        var modelId = $("#modelId").text();
+        var modelVO = {};
+        modelVO.name = name;
+        modelVO.key = key;
+        modelVO.modelId = modelId;
+        $.ajax({
+            url: "/createModel",
+            type: "POST",
+            async: false,
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(modelVO),
+            success: function (msg) {
+                table && table.reload(); //hg.table.datatable('test', 'reload');
+                window.location.href = "editor?modelId=" + modelId;
+            }
+        });
+    });
 </script>
 </body>
 
