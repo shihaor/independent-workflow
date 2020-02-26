@@ -73,7 +73,7 @@
 </div>
 </body>
 <script>
-    //查看
+    //办理
     function handle(obj, field) {
         console.log(field); //点击的单元格
         //obj通过行tool修改-lay-event
@@ -119,7 +119,7 @@
         max: hg.getdate(),
     });
     var tableCols = [[
-        {field: 'processInstanceId', width: 150, title: '流程实例id', sort: true},
+        {field: 'id', width: 150, title: '任务节点id', sort: true},
         {field: 'name', width: 100, title: '名称', style: 'color: #ff5722;'},
         {field: 'description', width: 330, title: '描述', sort: true},
         {

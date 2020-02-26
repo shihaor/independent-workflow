@@ -29,18 +29,20 @@
 <body class="layui-body-content">
 <div class="layui-fluid">
     <form id="formAsync" onsubmit="return false">
-        <div class="layui-row" th:each="li:${list}">
-            <input hidden name="task" th:value="${taskId}"/>
-            <div class="layui-form-item">
-                <label class="layui-form-label" for="L_username" th:text="${li.name}"></label>
-                <div class="layui-input-inline">
-                    <input autocomplete="off" class="layui-input" id="L_username" lay-verify="nikename" name="username"
-                           required="" type="text"></div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <button class="layui-btn" id="play">增加</button>
-        </div>
+        <input hidden name="task" th:value="${taskId}"/>
+        <table border="3" cellpadding="0">
+            <tr th:each="li:${list}">
+                <td th:text="${li.name}"></td>
+                <td th:text="${li.type}">类型：</td>
+                <td><input name="context" type="text"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="text-align:center">
+                    <button onclick="requestAsync()" type="submit">确定</button>
+                </td>
+            </tr>
+        </table>
     </form>
 </div>
 <script>
@@ -49,10 +51,11 @@
             type: "POST",
             dataType: "json",
             url: "/workflow/complete/noForm",
-            contentType: "application/json",
             data: $("#formAsync").serialize(),
             success: function (msg) {
-                window.location.href = "/workflow/contain"
+                alert(123)
+            }, error: function (msg) {
+                window.close();
             }
         });
     }

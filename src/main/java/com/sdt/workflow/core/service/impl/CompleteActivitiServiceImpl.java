@@ -1,9 +1,7 @@
 package com.sdt.workflow.core.service.impl;
 
 import com.sdt.workflow.core.service.CompleteActivitiService;
-import com.sdt.workflow.utils.ActivitiUtil;
 import org.activiti.engine.FormService;
-import org.activiti.engine.IdentityService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.form.TaskFormData;
@@ -11,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,16 +21,11 @@ import java.util.List;
  */
 @Service
 @Scope("prototype")
+@Transactional(rollbackOn = Exception.class)
 public class CompleteActivitiServiceImpl implements CompleteActivitiService {
 
     @Resource
-    private IdentityService identityService;
-
-    @Resource
     private TaskService taskService;
-
-    @Resource
-    private ActivitiUtil activitiUtil;
 
     @Resource
     private FormService formService;

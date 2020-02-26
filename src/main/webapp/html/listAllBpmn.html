@@ -73,14 +73,14 @@
 </div>
 </body>
 <script>
-    //查看
+    //启动
     function start(obj, field) {
         console.log(field); //点击的单元格
         //obj通过行tool修改-lay-event
         var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
         console.log(row);
         if (row) {
-            hg.open('办理任务' + row.data.name, '/workflow/start/noForm/' + row.data.id, 700, 600);
+            hg.open('启动任务' + row.data.name, '/workflow/start/noForm/' + row.data.id, 700, 600);
         } else {
             hg.msg('请选中一行数据，再操作！');
         }

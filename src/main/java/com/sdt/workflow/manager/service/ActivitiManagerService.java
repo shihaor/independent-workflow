@@ -43,7 +43,7 @@ public interface ActivitiManagerService {
      *
      * @return 流程实例集合
      */
-    List<HistoricProcessInstance> listMyApply();
+    List<HistoricProcessInstance> listMyApplyList();
 
     /**
      * 列出我申请过的未完成的流程

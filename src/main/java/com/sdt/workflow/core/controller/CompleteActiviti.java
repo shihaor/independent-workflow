@@ -22,7 +22,7 @@ public class CompleteActiviti {
     @Resource
     private CompleteActivitiService completeActivitiService;
 
-    @PostMapping("/noForm")
+    @PostMapping(value = "/noForm", produces = "application/json;charset=UTF-8")
     public void noForm(HttpServletRequest request) {
         //接收表单填写内容
         String[] context = request.getParameterValues("context");

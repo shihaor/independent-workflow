@@ -68,10 +68,10 @@ public class ActivitiManagerServiceImpl implements ActivitiManagerService {
     }
 
     @Override
-    public List<HistoricProcessInstance> listMyApply() {
+    public List<HistoricProcessInstance> listMyApplyList() {
 
         Person person = (Person) session.getAttribute("person");
-        return historyService.createHistoricProcessInstanceQuery().startedBy(person.getId()).list();
+        return historyService.createHistoricProcessInstanceQuery().unfinished().orderByProcessInstanceStartTime().desc().startedBy(person.getId()).list();
 
     }
 

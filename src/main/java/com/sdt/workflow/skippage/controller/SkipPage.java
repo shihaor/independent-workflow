@@ -46,4 +46,9 @@ public class SkipPage {
     public String listAllBpmn() {
         return "listAllBpmn.html";
     }
+
+    @GetMapping("/listMyApply")
+    public String listMyApply() {
+        return "listMyApply.html";
+    }
 }
