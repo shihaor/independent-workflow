@@ -53,9 +53,15 @@
             url: "/workflow/complete/noForm",
             data: $("#formAsync").serialize(),
             success: function (msg) {
-                alert(123)
+                //关闭当前frame
+                hg.close();
+                // 可以对父窗口进行刷新
+                hg.base_reload();
             }, error: function (msg) {
-                window.close();
+                //关闭当前frame
+                hg.close();
+                // 可以对父窗口进行刷新
+                hg.base_reload();
             }
         });
     }

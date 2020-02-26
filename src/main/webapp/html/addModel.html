@@ -98,6 +98,10 @@
             data: JSON.stringify(modelVO),
             success: function (msg) {
                 table && table.reload(); //hg.table.datatable('test', 'reload');
+                //关闭当前frame
+                hg.close();
+                // 可以对父窗口进行刷新
+                hg.base_reload();
                 window.location.href = "editor?modelId=" + modelId;
             }
         });

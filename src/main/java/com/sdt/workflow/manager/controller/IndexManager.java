@@ -42,6 +42,7 @@ public class IndexManager {
         model.addAttribute("runningNumber", runningNumber);
         model.addAttribute("overNumber", overNumber);
         model.addAttribute("commitLog", commitLog);
+        model.addAttribute("commitLogSize", commitLog.size());
         return "home.html";
     }
 }

@@ -71,7 +71,7 @@ public class ActivitiManagerServiceImpl implements ActivitiManagerService {
     public List<HistoricProcessInstance> listMyApplyList() {
 
         Person person = (Person) session.getAttribute("person");
-        return historyService.createHistoricProcessInstanceQuery().unfinished().orderByProcessInstanceStartTime().desc().startedBy(person.getId()).list();
+        return historyService.createHistoricProcessInstanceQuery().orderByProcessInstanceStartTime().desc().startedBy(person.getId()).list();
 
     }
 
