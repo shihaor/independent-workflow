@@ -51,4 +51,9 @@ public class SkipPage {
     public String listMyApply() {
         return "listMyApply.html";
     }
+
+    @GetMapping("/404")
+    public String notFound() {
+        return "404.html";
+    }
 }
