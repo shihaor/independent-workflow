@@ -58,28 +58,6 @@
     </div>
 </div>
 <script>
-    //发布
-    function publish(obj) {
-        //obj通过行tool删除-lay-event
-        var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
-        if (row) {
-            hg.confirm("发布当前选中的模型，确定要发布吗？", function () {
-                $.ajax({
-                    url: "/publishModel?modelId=" + row.data.id,
-                    type: "POST",
-                    dataType: "json",
-                    success: function (msg) {
-                        if (msg.code == 0) {
-                            //hg.table.datatable('test', 'reload');
-                        }
-                    }
-                });
-            });
-        } else {
-            hg.msg('请选中一行数据，再操作！');
-        }
-    }
-
     /** 增 */
     $("#play").click(function () {
         var name = $("#name").val();
@@ -97,11 +75,6 @@
             contentType: "application/json",
             data: JSON.stringify(modelVO),
             success: function (msg) {
-                table && table.reload(); //hg.table.datatable('test', 'reload');
-                //关闭当前frame
-                hg.close();
-                // 可以对父窗口进行刷新
-                hg.base_reload();
                 window.location.href = "editor?modelId=" + modelId;
             }
         });
