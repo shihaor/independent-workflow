@@ -3,6 +3,7 @@ package com.sdt.workflow.manager.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sdt.workflow.manager.service.ActivitiManagerService;
 import com.sdt.workflow.manager.vo.DeploymentVO;
+import com.sdt.workflow.manager.vo.ProcessDefineVO;
 import com.sdt.workflow.utils.JsonUtil;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
@@ -79,11 +80,19 @@ public class ActivitiManagerController {
         return JsonUtil.genJsonList(resultList);
     }
 
-    @GetMapping("/listAllBpmn")
-    public String listAllBpmn(Model model) {
-
-        List<ProcessDefinition> resultList = activitiManagerService.listAllBpmn();
-        model.addAttribute("list", resultList);
-        return "listAllBpmn.html";
+    @ResponseBody
+    @GetMapping(value = "/listAllBpmnList", produces = "application/json;charset=UTF-8")
+    public String listAllBpmnList() throws JsonProcessingException {
+        List<ProcessDefinition> definitionList = activitiManagerService.listAllBpmnList();
+        List<ProcessDefineVO> resultList = new ArrayList<>();
+        definitionList.forEach(processDefinition -> {
+            ProcessDefineVO processDefineVO = new ProcessDefineVO();
+            processDefineVO.setId(processDefinition.getId());
+            processDefineVO.setName(processDefinition.getName());
+            processDefineVO.setDescription(processDefinition.getDescription());
+            processDefineVO.setVersion(processDefinition.getVersion());
+            resultList.add(processDefineVO);
+        });
+        return JsonUtil.genJsonList(resultList);
     }
 }

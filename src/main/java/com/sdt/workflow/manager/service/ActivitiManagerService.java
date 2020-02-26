@@ -29,7 +29,7 @@ public interface ActivitiManagerService {
      *
      * @return 未被挂起的流程资源
      */
-    List<ProcessDefinition> listAllBpmn();
+    List<ProcessDefinition> listAllBpmnList();
 
     /**
      * 获取流转到登录者身上的任务

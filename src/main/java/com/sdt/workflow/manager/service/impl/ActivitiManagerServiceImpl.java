@@ -56,7 +56,7 @@ public class ActivitiManagerServiceImpl implements ActivitiManagerService {
     }
 
     @Override
-    public List<ProcessDefinition> listAllBpmn() {
+    public List<ProcessDefinition> listAllBpmnList() {
         return repositoryService.createProcessDefinitionQuery().active().list();
     }
 
