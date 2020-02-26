@@ -5,6 +5,7 @@ import com.sdt.workflow.manager.service.ActivitiManagerService;
 import com.sdt.workflow.manager.vo.DeploymentVO;
 import com.sdt.workflow.utils.JsonUtil;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -63,10 +64,18 @@ public class ActivitiManagerController {
     }
 
     @ResponseBody
-    @GetMapping(value = "/listMyTask", produces = "application/json;charset=UTF-8")
-    public String listMyTask(Model model) throws JsonProcessingException {
+    @GetMapping(value = "/listMyTaskList", produces = "application/json;charset=UTF-8")
+    public String listMyTaskList() throws JsonProcessingException {
 
-        List<Task> resultList = activitiManagerService.listMyTask();
+        List<Task> resultList = activitiManagerService.listMyTaskList();
+        return JsonUtil.genJsonList(resultList);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/listMyTaskOverList", produces = "application/json;charset=UTF-8")
+    public String listMyTaskOver() throws JsonProcessingException {
+
+        List<HistoricTaskInstance> resultList = activitiManagerService.listMyTaskOverList();
         return JsonUtil.genJsonList(resultList);
     }
 

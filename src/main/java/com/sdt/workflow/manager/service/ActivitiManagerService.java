@@ -1,6 +1,7 @@
 package com.sdt.workflow.manager.service;
 
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -35,7 +36,7 @@ public interface ActivitiManagerService {
      *
      * @return
      */
-    List<Task> listMyTask();
+    List<Task> listMyTaskList();
 
     /**
      * 列出我申请过的流程
@@ -50,4 +51,11 @@ public interface ActivitiManagerService {
      * @return 流程实例集合
      */
     List<ProcessInstance> listMyApplyUnOver();
+
+    /**
+     * 查询办理过的任务
+     *
+     * @return 办理过的任务
+     */
+    List<HistoricTaskInstance> listMyTaskOverList();
 }

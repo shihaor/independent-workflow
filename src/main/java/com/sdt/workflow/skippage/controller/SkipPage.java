@@ -36,4 +36,9 @@ public class SkipPage {
     public String listMyTask() {
         return "listMyTask.html";
     }
+
+    @GetMapping("/listMyTaskOver")
+    public String listMyTaskOver() {
+        return "listMyTaskOver.html";
+    }
 }

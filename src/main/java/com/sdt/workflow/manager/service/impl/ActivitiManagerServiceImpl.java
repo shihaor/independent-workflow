@@ -8,6 +8,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -60,7 +61,7 @@ public class ActivitiManagerServiceImpl implements ActivitiManagerService {
     }
 
     @Override
-    public List<Task> listMyTask() {
+    public List<Task> listMyTaskList() {
 
         Person person = (Person) session.getAttribute("person");
         return taskService.createTaskQuery().taskCandidateOrAssigned(person.getId()).list();
@@ -78,5 +79,11 @@ public class ActivitiManagerServiceImpl implements ActivitiManagerService {
     public List<ProcessInstance> listMyApplyUnOver() {
         Person person = (Person) session.getAttribute("person");
         return runtimeService.createProcessInstanceQuery().startedBy(person.getId()).list();
+    }
+
+    @Override
+    public List<HistoricTaskInstance> listMyTaskOverList() {
+        Person person = (Person) session.getAttribute("person");
+        return historyService.createHistoricTaskInstanceQuery().taskCandidateUser(person.getId()).orderByHistoricTaskInstanceEndTime().desc().finished().list();
     }
 }

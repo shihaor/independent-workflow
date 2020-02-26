@@ -26,7 +26,7 @@
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-card-header">
-            <i class="iconfont">&#xe6ac;</i>我的任务管理表格
+            <i class="iconfont">&#xe6ac;</i>我办理过的任务管理表格
             <span class="layui-layout-right">
                     <a hg-event="fullscreen" href="javascript:">
                         <i class="layui-icon layui-icon-screen-full"></i>
@@ -73,19 +73,6 @@
 </div>
 </body>
 <script>
-    //查看
-    function handle(obj, field) {
-        console.log(field); //点击的单元格
-        //obj通过行tool修改-lay-event
-        var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
-        console.log(row);
-        if (row) {
-            hg.open('办理任务' + row.data.name, '/workflow/start/normalTask/' + row.data.id, 700, 600);
-        } else {
-            hg.msg('请选中一行数据，再操作！');
-        }
-    }
-
     //监听switch操作事件
     hg.form.onswitch('doflag', function (data) {
         hg.msg(data.elem.name + '开关checked：' + (data.elem.checked === true ? '开启' : '禁用'));
@@ -162,9 +149,9 @@
         }
     ];
     //基本数据表格
-    var table = hg.table.datatable('test', '模型管理', '/workflow/listMyTaskList', {}, tableCols, '', false, 'full-255');
+    var table = hg.table.datatable('test', '模型管理', '/workflow/listMyTaskOverList', {}, tableCols, '', false, 'full-255');
 
-    // var table = hg.table.datatable('deployment', '已部署流程管理', '/workflow/findAllDeployments', {}, tableCols, '', false, 'full-255');
+    // var table = hg.table.datatable('deployment', '已部署流程管理', '/workflow/listMyTaskList', {}, tableCols, '', false, 'full-255');
 </script>
 
 </html>
