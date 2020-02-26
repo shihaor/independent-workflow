@@ -62,12 +62,12 @@ public class ActivitiManagerController {
         return "listMyApply.html";
     }
 
-    @GetMapping("/listMyTask")
-    public String listMyTask(Model model) {
+    @ResponseBody
+    @GetMapping(value = "/listMyTask", produces = "application/json;charset=UTF-8")
+    public String listMyTask(Model model) throws JsonProcessingException {
 
         List<Task> resultList = activitiManagerService.listMyTask();
-        model.addAttribute("list", resultList);
-        return "listMyTask.html";
+        return JsonUtil.genJsonList(resultList);
     }
 
     @GetMapping("/listAllBpmn")
