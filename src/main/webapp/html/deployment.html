@@ -1,100 +1,253 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html>
+
 <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
-    <title>已部署的流程</title>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta content="webkit|ie-comp|ie-stand" name="renderer">
+    <meta content="IE=edge,chrome=1" http-equiv="hg-UA-Compatible">
+    <meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="no-siteapp" http-equiv="Cache-Control"/>
+    <link href="./css/font.css" rel="stylesheet">
+    <link href="./lib/layui/css/layui.css" media="all" rel="stylesheet">
+    <link href="./lib/admin/admin.css" media="all" rel="stylesheet">
+    <link href="./lib/Scrollbar/jquery.scrollbar.css" rel="stylesheet">
+    <script src="./lib/admin/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="./lib/Scrollbar/jquery.scrollBar.js" type="text/javascript"></script>
+    <script src="./lib/layui/layui.js" type="text/javascript"></script>
+    <script src="./lib/admin/admin.js" type="text/javascript"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
-<body>
-<center><h1 style="color: #b9393f;">已部署的流程</h1></center>
-<hr/>
-<center>
-    <table border="3" cellpadding="0">
-        <tr>
-            <td>部署Id</td>
-            <td>部署名字</td>
-            <td>部署时间</td>
-            <td>操作</td>
-        </tr>
-        <tr th:each="model, gStat: ${modelList}">
-            <td th:text="${model.id}"></td>
-            <td th:text="${model.name}"></td>
-            <td th:text="${model.deploymentTime}"></td>
-            <td>
-                <button class="suspend">
-                    <p hidden id="modelId" th:text="${model.id}"></p>
-                    挂起
+
+<body class="layui-body-content">
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-header">
+            <i class="iconfont">&#xe6ac;</i>已部署流程管理表格
+            <span class="layui-layout-right">
+                    <a hg-event="fullscreen" href="javascript:">
+                        <i class="layui-icon layui-icon-screen-full"></i>
+                    </a>
+                </span>
+        </div>
+        <div class="layui-card-body">
+            <div class="layui-form">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <input autocomplete="off" class="layui-input" id="start" name="start" placeholder="开始日">
+                    </div>
+                    <div class="layui-inline">
+                        <input autocomplete="off" class="layui-input" id="end" name="end" placeholder="截止日">
+                    </div>
+                    <div class="layui-inline">
+                        <input autocomplete="off" class="layui-input" name="username" placeholder="请输入用户名" type="text">
+                    </div>
+                    <div class="layui-inline layui-show-xs-block">
+                        <button class="layui-btn layui-btn-lg layui-btn-normal" lay-filter="sreach" lay-submit><i
+                                class="layui-icon layui-icon-lg">&#xe615;</i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <button class="layui-btn layui-btn-lg layui-btn-normal"
+                        onclick="hg.open('增加发布','/fontList',600,400)"><i
+                        class="layui-icon">&#xe654;</i>添加
                 </button>
-                <button class="active">
-                    <p hidden id="modelId" th:text="${model.id}"></p>
-                    激活
+                <!--<button class="layui-btn layui-btn-lg layui-btn-warm" onclick="edit()"><i-->
+                <!--class="layui-icon">&#xe642;</i>修改-->
+                <!--</button>-->
+                <button class="layui-btn layui-btn-lg layui-btn-danger" onclick="del()"><i
+                        class="layui-icon">&#xe640;</i>删除
                 </button>
-                <button class="delete">
-                    <p hidden id="modelId" th:text="${model.id}"></p>
-                    删除
-                </button>
-                <button class="getBpmn">
-                    <p hidden id="modelId" th:text="${model.id}"></p>
-                    查看BPMN图
-                </button>
-            </td>
-        </tr>
-    </table>
-</center>
-<img id="image" style="display: none"/>
+            </div>
+            <table class="layui-hide" id="test" lay-filter="test"></table>
+        </div>
+    </div>
+    <div class="layui-floor">
+        <blockquote class="layui-elem-quote layui-quote-nm">shr
+        </blockquote>
+    </div>
+</div>
 </body>
-</html>
-<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
 <script>
-    // 挂起
-    $(".suspend").click(function () {
-        var id = $(this).find("p").text();
-        $.ajax({
-            url: "/operator/suspendDeployment/" + id,
-            type: "POST",
-            async: false,
-            dataType: "json",
-            contentType: "application/json",
-            success: function (msg) {
-                alert(msg.msg)
+    //查看
+    function look(obj, field) {
+        console.log(field); //点击的单元格
+        //obj通过行tool修改-lay-event
+        var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
+        console.log(row);
+        if (row) {
+            hg.open('查看部署' + row.data.name, '/operator/getBpmn/' + row.data.id, 700, 600);
+        } else {
+            hg.msg('请选中一行数据，再操作！');
+        }
+    }
+
+    //挂起
+    function suspend(obj) {
+        //obj通过行tool删除-lay-event
+        var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
+        if (row) {
+            hg.confirm("挂起当前选中的流程，确定要挂起吗？", function () {
+                $.ajax({
+                    url: "/operator/suspendDeployment/" + row.data.id,
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (msg) {
+                        if (msg.code == 0) {
+                            hg.msg('挂起成功！');
+                            table && table.reload(); //hg.table.datatable('test', 'reload');
+                        }
+                    },
+                    error: function (msg) {
+                        hg.msg('挂起失败！');
+                    }
+                });
+            });
+        } else {
+            hg.msg('请选中一行数据，再操作！');
+        }
+    }
+
+    //激活
+    function active(obj) {
+        //obj通过行tool删除-lay-event
+        var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
+        if (row) {
+            hg.confirm("激活当前选中的流程，确定要激活吗？", function () {
+                $.ajax({
+                    url: "/operator/activeDeployment/" + row.data.id,
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (msg) {
+                        if (msg.code == 0) {
+                            hg.msg('激活成功！');
+                            table && table.reload(); //hg.table.datatable('test', 'reload');
+                        }
+                    },
+                    error: function (msg) {
+                        hg.msg('激活失败！');
+                    }
+                });
+            });
+        } else {
+            hg.msg('请选中一行数据，再操作！');
+        }
+    }
+
+    //删除
+    function del(obj) {
+        //obj通过行tool删除-lay-event
+        var row = obj ? obj : table.getSelected(); //hg.table.datatable('test', 'getSelected');
+        if (row) {
+            hg.confirm("删除当前选中的流程，确定要删除吗？", function () {
+                $.ajax({
+                    url: "/operator/deleteDeployment/" + row.data.id,
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (msg) {
+                        if (msg.code == 0) {
+                            hg.msg('删除成功！');
+                            table && table.reload(); //hg.table.datatable('test', 'reload');
+                        }
+                    },
+                    error: function (msg) {
+                        hg.msg('删除失败！');
+                    }
+                });
+            });
+        } else {
+            hg.msg('请选中一行数据，再操作！');
+        }
+    }
+
+
+    //监听switch操作事件
+    hg.form.onswitch('doflag', function (data) {
+        hg.msg(data.elem.name + '开关checked：' + (data.elem.checked === true ? '开启' : '禁用'));
+        console.log(data.elem.checked);
+        console.log(data.elem.name);
+        console.log(data.elem.value);
+        console.log(data.othis);
+    });
+    //监听表单提交事件
+    hg.form.onsubmit('sreach', function (data) {
+        var start = data.start;
+        var end = data.end;
+        if (start && end) {
+            if (start > end) {
+                hg.msg("时间范围错误，请重新选择!");
+                return false;
             }
-        });
+        } else if (start || end) {
+            hg.msg("时间范围错误，请重新选择!");
+            return false;
+        }
+        hg.msg(JSON.stringify(data));
+        table && table.reload(data);
     });
-    // 激活
-    $(".active").click(function () {
-        var id = $(this).find("p").text();
-        $.ajax({
-            url: "/operator/activeDeployment/" + id,
-            type: "POST",
-            async: false,
-            dataType: "json",
-            contentType: "application/json",
-            success: function (msg) {
-                alert(msg.msg)
+    //日期控件
+    hg.datetime('#start', '#end', {
+        type: 'datetime',
+        value: hg.getdate('datetime', -30),
+        value2: hg.getdate('datetime', '23:59:59'),
+        min: hg.getdate('date', -365),
+        max: hg.getdate(),
+    });
+    var tableCols = [[
+        {field: 'id', width: 100, title: '部署ID', sort: true},
+        {field: 'name', width: 100, title: '名称', style: 'color: #ff5722;'},
+        {field: 'deploymentTime', width: 330, title: '部署时间', sort: true},
+        {
+            field: 'right', width: 330, title: '操作', templet: function (d) {
+                return '<a class="layui-btn layui-btn-xs" lay-event="suspend">挂起</a> <a class="layui-btn layui-btn-xs" lay-event="active">激活</a>' +
+                    ' <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="look">查看</a>'
             }
-        });
-    });
-    // 删除
-    $(".delete").click(function () {
-        var id = $(this).find("p").text();
-        alert(id);
-        $.ajax({
-            url: "/operator/deleteDeployment/" + id,
-            type: "POST",
-            async: false,
-            dataType: "json",
-            contentType: "application/json",
-            success: function (msg) {
-                alert(msg.msg)
+        }]
+    ];
+    var toolbar = [{
+        text: '添加',
+        layuiicon: '&#xe608;',
+        handler: function () {
+            hg.open('添加用户', './DataGrid-add.html', 600, 400);
+        }
+    },
+        {
+            text: '修改',
+            layuiicon: '&#xe642;',
+            handler: function (obj, row) {
+                if (row) {
+                    hg.open('修改用户' + row.data.username, './DataGrid-add.html', 600, 400);
+                } else {
+                    hg.msg('请选中一行数据，再操作！');
+                }
             }
-        });
-    });
-    // 获取bpmn图片
-    $(".getBpmn").click(function () {
-        var id = $(this).find("p").text();
-        $("#image").attr("src", "/operator/getBpmn/" + id);
-        $("#image").show();
-    });
-    // 点击图片隐藏
-    $("#image").click(function () {
-        $("#image").hide();
-    })
+        }, {
+            text: '删除',
+            layuiicon: '&#xe640;',
+            handler: function (obj, row) {
+                if (row) {
+                    hg.confirm("删除当前选中的用户，确定要删除吗？", function () {
+                        row.del(); //只删本地数据
+                        hg.msg('删除成功！');
+                        //obj.reload();
+                    });
+                } else {
+                    hg.msg('请选中一行数据，再操作！');
+                }
+            }
+        }
+    ];
+    //基本数据表格
+    var table = hg.table.datatable('test', '模型管理', '/workflow/findAllDeployments', {}, tableCols, '', false, 'full-255');
+
+    // var table = hg.table.datatable('deployment', '已部署流程管理', '/workflow/findAllDeployments', {}, tableCols, '', false, 'full-255');
 </script>
+
+</html>

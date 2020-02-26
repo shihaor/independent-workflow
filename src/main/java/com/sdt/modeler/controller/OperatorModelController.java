@@ -29,11 +29,6 @@ public class OperatorModelController {
     @Resource
     private OperatorModelService operatorModelService;
 
-    @GetMapping("/fontList")
-    public String fontList() {
-        return "fontList.html";
-    }
-
     /**
      * 不加produces前端layui解析JSON乱码
      *

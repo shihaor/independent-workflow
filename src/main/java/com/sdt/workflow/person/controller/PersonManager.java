@@ -30,11 +30,6 @@ public class PersonManager {
     @Resource
     private HttpSession session;
 
-    @RequestMapping("/loginPage")
-    public String loginPage() {
-        return "login.html";
-    }
-
     @PostMapping("/check")
     public String check(@RequestBody Person person) throws Exception {
 

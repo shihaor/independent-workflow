@@ -1,0 +1,100 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <title>已部署的流程</title>
+</head>
+<body>
+<center><h1 style="color: #b9393f;">已部署的流程</h1></center>
+<hr/>
+<center>
+    <table border="3" cellpadding="0">
+        <tr>
+            <td>部署Id</td>
+            <td>部署名字</td>
+            <td>部署时间</td>
+            <td>操作</td>
+        </tr>
+        <tr th:each="model, gStat: ${modelList}">
+            <td th:text="${model.id}"></td>
+            <td th:text="${model.name}"></td>
+            <td th:text="${model.deploymentTime}"></td>
+            <td>
+                <button class="suspend">
+                    <p hidden id="modelId" th:text="${model.id}"></p>
+                    挂起
+                </button>
+                <button class="active">
+                    <p hidden id="modelId" th:text="${model.id}"></p>
+                    激活
+                </button>
+                <button class="delete">
+                    <p hidden id="modelId" th:text="${model.id}"></p>
+                    删除
+                </button>
+                <button class="getBpmn">
+                    <p hidden id="modelId" th:text="${model.id}"></p>
+                    查看BPMN图
+                </button>
+            </td>
+        </tr>
+    </table>
+</center>
+<img id="image" style="display: none"/>
+</body>
+</html>
+<script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script>
+    // 挂起
+    $(".suspend").click(function () {
+        var id = $(this).find("p").text();
+        $.ajax({
+            url: "/operator/suspendDeployment/" + id,
+            type: "POST",
+            async: false,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (msg) {
+                alert(msg.msg)
+            }
+        });
+    });
+    // 激活
+    $(".active").click(function () {
+        var id = $(this).find("p").text();
+        $.ajax({
+            url: "/operator/activeDeployment/" + id,
+            type: "POST",
+            async: false,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (msg) {
+                alert(msg.msg)
+            }
+        });
+    });
+    // 删除
+    $(".delete").click(function () {
+        var id = $(this).find("p").text();
+        alert(id);
+        $.ajax({
+            url: "/operator/deleteDeployment/" + id,
+            type: "POST",
+            async: false,
+            dataType: "json",
+            contentType: "application/json",
+            success: function (msg) {
+                alert(msg.msg)
+            }
+        });
+    });
+    // 获取bpmn图片
+    $(".getBpmn").click(function () {
+        var id = $(this).find("p").text();
+        $("#image").attr("src", "/operator/getBpmn/" + id);
+        $("#image").show();
+    });
+    // 点击图片隐藏
+    $("#image").click(function () {
+        $("#image").hide();
+    })
+</script>

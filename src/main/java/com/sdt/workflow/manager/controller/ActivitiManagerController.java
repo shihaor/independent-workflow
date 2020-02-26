@@ -1,6 +1,9 @@
 package com.sdt.workflow.manager.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sdt.workflow.manager.service.ActivitiManagerService;
+import com.sdt.workflow.manager.vo.DeploymentVO;
+import com.sdt.workflow.utils.JsonUtil;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -10,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,17 +32,20 @@ public class ActivitiManagerController {
     @Resource
     private ActivitiManagerService activitiManagerService;
 
-    @GetMapping("/contain")
-    public String contain() {
-        return "contain.html";
-    }
+    @ResponseBody
+    @GetMapping(value = "/findAllDeployments", produces = "application/json;charset=UTF-8")
+    public String findAllDeployments() throws JsonProcessingException {
 
-    @GetMapping("/findAllDeployments")
-    public String findAllDeployments(Model model) {
-
-        List<Deployment> resultList = activitiManagerService.findAllDeployments();
-        model.addAttribute("modelList", resultList);
-        return "deployment.html";
+        List<Deployment> deploymentList = activitiManagerService.findAllDeployments();
+        List<DeploymentVO> resultList = new ArrayList<>();
+        deploymentList.forEach(deployment -> {
+            DeploymentVO deploymentVO = new DeploymentVO();
+            deploymentVO.setId(deployment.getId());
+            deploymentVO.setDeploymentTime(deployment.getDeploymentTime());
+            deploymentVO.setName(deployment.getName());
+            resultList.add(deploymentVO);
+        });
+        return JsonUtil.genJsonList(resultList);
     }
 
     @GetMapping("/listMyApply")
