@@ -58,8 +58,9 @@
                     class="layui-icon layui-icon-delete"></i></a></li>
             <li class="layui-nav-text">超级管理员</li>
             <li class="layui-nav-item">
-                <a href="javascript:"><img class="layui-nav-img" src="../images/touxiang.jpg"><font
-                        th:text="${session.person.name}"></font></a>
+                <a href="javascript:"><img class="layui-nav-img" src="../images/touxiang.jpg">
+                    <font th:text="${session.person.name}"></font>
+                </a>
                 <dl class="layui-nav-child">
                     <dd lay-unselect><a onclick="hg.add_tab('个人信息','/user/userInfo.html')"><i
                             class="iconfont">&#xe601;</i>个人信息</a></dd>

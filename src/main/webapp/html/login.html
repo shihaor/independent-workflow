@@ -50,8 +50,10 @@
             url: "/user/check",
             type: "POST",
             dataType: "json",
+            contentType: "application/json",
             data: JSON.stringify(person),
             success: function (msg) {
+                alert(msg);
                 window.location.href = "/workflow/contain";
             },
             error: function (msg) {

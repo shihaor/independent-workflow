@@ -96,6 +96,7 @@
                     url: "/publishModel?modelId=" + row.data.id,
                     type: "POST",
                     dataType: "json",
+                    contentType: "application/json",
                     success: function (msg) {
                         if (msg.code == 0) {
                             hg.msg('发布成功！');
@@ -119,6 +120,7 @@
                     url: "/revokePublish?modelId=" + row.data.id,
                     type: "POST",
                     dataType: "json",
+                    contentType: "application/json",
                     success: function (msg) {
                         if (msg.code == 0) {
                             hg.msg('撤消成功！');
@@ -142,6 +144,7 @@
                     url: "/deleteModel?modelId=" + row.data.id,
                     type: "POST",
                     dataType: "json",
+                    contentType: "application/json",
                     success: function (msg) {
                         if (msg.code == 0) {
                             hg.msg('删除成功！');
