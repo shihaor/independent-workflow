@@ -7,6 +7,7 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -34,28 +35,32 @@ public interface ActivitiManagerService {
     /**
      * 获取流转到登录者身上的任务
      *
+     * @param request 上下文
      * @return
      */
-    List<Task> listMyTaskList();
+    List<Task> listMyTaskList(HttpServletRequest request);
 
     /**
      * 列出我申请过的流程
      *
      * @return 流程实例集合
+     * @@param request 上下文
      */
-    List<HistoricProcessInstance> listMyApplyList();
+    List<HistoricProcessInstance> listMyApplyList(HttpServletRequest request);
 
     /**
      * 列出我申请过的未完成的流程
      *
      * @return 流程实例集合
+     * @@param request 上下文
      */
-    List<ProcessInstance> listMyApplyUnOver();
+    List<ProcessInstance> listMyApplyUnOver(HttpServletRequest request);
 
     /**
      * 查询办理过的任务
      *
+     * @param request 上下文
      * @return 办理过的任务
      */
-    List<HistoricTaskInstance> listMyTaskOverList();
+    List<HistoricTaskInstance> listMyTaskOverList(HttpServletRequest request);
 }

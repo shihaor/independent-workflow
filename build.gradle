@@ -3,6 +3,11 @@ plugins {
     id 'war'
 }
 
+task copyJars(type:Copy) {
+    from configurations.runtime
+    into 'dist'
+}
+
 group 'shr'
 version '1.0-SNAPSHOT'
 

@@ -24,11 +24,8 @@ public class PersonManagerServiceImpl implements PersonManagerService {
     @Resource
     private IdentityService identityService;
 
-    @Resource
-    private HttpServletRequest request;
-
     @Override
-    public void checkPassword(Person person) {
+    public void checkPassword(Person person, HttpServletRequest request) {
 
         boolean password = identityService.checkPassword(person.getId(), person.getPassword());
         if (!password) {

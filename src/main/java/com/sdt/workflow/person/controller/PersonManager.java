@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 人员登录注销等接口
@@ -27,20 +27,17 @@ public class PersonManager {
     @Resource
     private PersonManagerService personManagerService;
 
-    @Resource
-    private HttpSession session;
-
     @PostMapping("/check")
-    public String check(@RequestBody Person person) throws Exception {
+    public String check(@RequestBody Person person, HttpServletRequest request) throws Exception {
 
-        personManagerService.checkPassword(person);
+        personManagerService.checkPassword(person, request);
         return JsonUtil.genJsonSuccess(true);
     }
 
     @GetMapping("/out")
-    public String out() {
+    public String out(HttpServletRequest request) {
 
-        session.removeAttribute("person");
+        request.getSession().removeAttribute("person");
         return "login.html";
     }
 

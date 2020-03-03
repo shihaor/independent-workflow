@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
@@ -45,14 +45,11 @@ public class StartActivitiServiceImpl implements StartActivitiService {
     @Resource
     private ActivitiUtil activitiUtil;
 
-    @Resource
-    private HttpSession session;
-
     @Override
-    public HashMap<String, Object> noForm(String processDefineId) {
+    public HashMap<String, Object> noForm(String processDefineId, HttpServletRequest request) {
         HashMap<String, Object> map = new HashMap<>(2);
         // 需要从session中获取人员
-        Person person = (Person) session.getAttribute("person");
+        Person person = (Person) request.getSession().getAttribute("person");
         // 将流程绑定到流程的启动者身上
         identityService.setAuthenticatedUserId(person.getId());
         ProcessInstance processInstance = runtimeService.startProcessInstanceById(processDefineId);

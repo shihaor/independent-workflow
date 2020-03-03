@@ -2,7 +2,6 @@ package com.sdt.workflow.manager.service.impl;
 
 import com.sdt.workflow.manager.service.ActivitiManagerService;
 import com.sdt.workflow.person.vo.Person;
-import com.sdt.workflow.utils.ActivitiUtil;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
@@ -17,7 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -40,13 +39,7 @@ public class ActivitiManagerServiceImpl implements ActivitiManagerService {
     private TaskService taskService;
 
     @Resource
-    private ActivitiUtil activitiUtil;
-
-    @Resource
     private HistoryService historyService;
-
-    @Resource
-    private HttpSession session;
 
     @Override
     public List<Deployment> findAllDeployments() {
@@ -61,29 +54,29 @@ public class ActivitiManagerServiceImpl implements ActivitiManagerService {
     }
 
     @Override
-    public List<Task> listMyTaskList() {
+    public List<Task> listMyTaskList(HttpServletRequest request) {
 
-        Person person = (Person) session.getAttribute("person");
+        Person person = (Person) request.getSession().getAttribute("person");
         return taskService.createTaskQuery().taskCandidateOrAssigned(person.getId()).list();
     }
 
     @Override
-    public List<HistoricProcessInstance> listMyApplyList() {
+    public List<HistoricProcessInstance> listMyApplyList(HttpServletRequest request) {
 
-        Person person = (Person) session.getAttribute("person");
+        Person person = (Person) request.getSession().getAttribute("person");
         return historyService.createHistoricProcessInstanceQuery().orderByProcessInstanceStartTime().desc().startedBy(person.getId()).list();
 
     }
 
     @Override
-    public List<ProcessInstance> listMyApplyUnOver() {
-        Person person = (Person) session.getAttribute("person");
+    public List<ProcessInstance> listMyApplyUnOver(HttpServletRequest request) {
+        Person person = (Person) request.getSession().getAttribute("person");
         return runtimeService.createProcessInstanceQuery().startedBy(person.getId()).list();
     }
 
     @Override
-    public List<HistoricTaskInstance> listMyTaskOverList() {
-        Person person = (Person) session.getAttribute("person");
+    public List<HistoricTaskInstance> listMyTaskOverList(HttpServletRequest request) {
+        Person person = (Person) request.getSession().getAttribute("person");
         return historyService.createHistoricTaskInstanceQuery().taskCandidateUser(person.getId()).orderByHistoricTaskInstanceEndTime().desc().finished().list();
     }
 }

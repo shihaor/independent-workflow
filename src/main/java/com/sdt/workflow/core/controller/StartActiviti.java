@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class StartActiviti {
     private StartActivitiService startActivitiService;
 
     @GetMapping("/noForm/{id}")
-    public String noForm(@PathVariable("id") String processDefineId, Model model) throws Exception {
+    public String noForm(@PathVariable("id") String processDefineId, Model model, HttpServletRequest request) throws Exception {
 
-        HashMap<String, Object> map = startActivitiService.noForm(processDefineId);
+        HashMap<String, Object> map = startActivitiService.noForm(processDefineId, request);
         model.addAttribute("list", map.get("list"));
         model.addAttribute("taskId", map.get("taskId"));
         return "work.html";

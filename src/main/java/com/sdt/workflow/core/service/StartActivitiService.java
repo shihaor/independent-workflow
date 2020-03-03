@@ -2,6 +2,7 @@ package com.sdt.workflow.core.service;
 
 import org.activiti.engine.form.FormProperty;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,9 +18,10 @@ public interface StartActivitiService {
      * 无表单启动
      *
      * @param processDefineId 流程定义id
+     * @param request
      * @return 节点中的表单数据 和 节点id
      */
-    HashMap<String, Object> noForm(String processDefineId);
+    HashMap<String, Object> noForm(String processDefineId, HttpServletRequest request);
 
     /**
      * 通过taskId获取当前节点的表单

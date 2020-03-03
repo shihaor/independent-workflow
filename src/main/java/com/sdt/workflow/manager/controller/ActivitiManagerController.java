@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,16 +52,16 @@ public class ActivitiManagerController {
 
     @ResponseBody
     @GetMapping(value = "/listMyApplyList", produces = "application/json;charset=UTF-8")
-    public String listMyApply() throws JsonProcessingException {
-        List<HistoricProcessInstance> resultList = activitiManagerService.listMyApplyList();
+    public String listMyApply(HttpServletRequest request) throws JsonProcessingException {
+        List<HistoricProcessInstance> resultList = activitiManagerService.listMyApplyList(request);
         return JsonUtil.genJsonList(resultList);
     }
 
     @ResponseBody
     @GetMapping(value = "/listMyTaskList", produces = "application/json;charset=UTF-8")
-    public String listMyTaskList() throws JsonProcessingException {
+    public String listMyTaskList(HttpServletRequest request) throws JsonProcessingException {
 
-        List<Task> taskList = activitiManagerService.listMyTaskList();
+        List<Task> taskList = activitiManagerService.listMyTaskList(request);
         List<TaskVO> resultList = new ArrayList<>();
         taskList.forEach(task -> {
             TaskVO taskVO = new TaskVO();
@@ -74,9 +75,9 @@ public class ActivitiManagerController {
 
     @ResponseBody
     @GetMapping(value = "/listMyTaskOverList", produces = "application/json;charset=UTF-8")
-    public String listMyTaskOver() throws JsonProcessingException {
+    public String listMyTaskOver(HttpServletRequest request) throws JsonProcessingException {
 
-        List<HistoricTaskInstance> resultList = activitiManagerService.listMyTaskOverList();
+        List<HistoricTaskInstance> resultList = activitiManagerService.listMyTaskOverList(request);
         return JsonUtil.genJsonList(resultList);
     }
 
