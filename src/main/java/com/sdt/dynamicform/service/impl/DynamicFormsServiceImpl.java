@@ -74,7 +74,7 @@ public class DynamicFormsServiceImpl implements IDynamicFormsService {
     @Override
     public DynamicForm viewForm(Integer id) throws Exception {
 
-        return this.dynamicFormDao.getOne(id);
+        return this.dynamicFormDao.findOne(id);
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sdt.eims.base.bean.AbstractBaseBean;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.context.annotation.Scope;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +19,6 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "e_form")
-@Scope("prototype")
 @ApiModel(value = "表单实体")
 @JsonIgnoreProperties(value = {"uuid", "deleted", "deleteTime", "unique_biaoshi"})
 public class DynamicForm extends AbstractBaseBean implements Serializable {

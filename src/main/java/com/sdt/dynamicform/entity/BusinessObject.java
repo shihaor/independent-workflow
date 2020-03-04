@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sdt.eims.base.bean.AbstractBaseBean;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.context.annotation.Scope;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +17,7 @@ import javax.persistence.Table;
  * @author shihaoran
  */
 @Entity
-@Table(name = "e_business_obj")
-@Scope("prototype")
+@Table(name = "business_obj")
 @ApiModel(value = "业务对象名称")
 @JsonIgnoreProperties(value = {"uuid", "deleted", "deleteTime"})
 public class BusinessObject extends AbstractBaseBean {

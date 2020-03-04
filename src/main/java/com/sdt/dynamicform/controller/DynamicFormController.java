@@ -32,7 +32,7 @@ public class DynamicFormController {
     @Resource
     private IDynamicFormsService dynamicFormsService;
 
-    @GetMapping(value = "/saveOrUpdateForm")
+    @PostMapping(value = "/saveOrUpdateForm")
     @ApiOperation(value = "更新或者新增表单")
     public String saveOrUpdateForm(@RequestBody ContainAllVO containAllVO) throws Exception {
 

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sdt.eims.base.bean.AbstractBaseBean;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.context.annotation.Scope;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +18,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "e_form_value")
-@Scope("prototype")
 @ApiModel(value = "流程每次数据不一样，需要以流程实例id为标识")
 @JsonIgnoreProperties(value = {"uuid", "deleted", "deleteTime"})
 public class FormValueLinkProcess extends AbstractBaseBean {

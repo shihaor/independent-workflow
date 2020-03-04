@@ -52,7 +52,7 @@
         <!--1、配置数据库连接池  -->
         <property name="dataSource" ref="dataSource"></property>
         <!-- 2、扫描实体所在包 -->
-        <property name="packagesToScan" value="com.sdt.workflow.entity"/>
+        <property name="packagesToScan" value="com.sdt"/>
         <!--2、Hibernate的配置信息  -->
         <property name="persistenceProvider">
             <bean class="org.hibernate.jpa.HibernatePersistenceProvider"/>
@@ -75,7 +75,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"></property>
     </bean>
     <!-- 配置Jpa仓库 -->
-    <jpa:repositories base-package="com.sdt.workflow.dao"
+    <jpa:repositories base-package="com.sdt"
                       transaction-manager-ref="transactionManager"
                       entity-manager-factory-ref="entityManagerFactory"/>
     <tx:annotation-driven transaction-manager="transactionManager"/>

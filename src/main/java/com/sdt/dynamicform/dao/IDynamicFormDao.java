@@ -48,8 +48,8 @@ public interface IDynamicFormDao extends JpaRepository<DynamicForm, Integer> {
      * @return 表单实体
      * @throws Exception 查找异常
      */
-    @Query(value = "select from DynamicForm a where a.formName = :formName and a.formVersion = (select max(o.formVersion) from DynamicForm o where o.formName = a.formName)", nativeQuery = true)
-    DynamicForm findMaxVersionFormByName(String formName) throws Exception;
+    @Query(value = "select from DynamicForm a where a.formName = ?1 and a.formVersion = (select max(o.formVersion) from DynamicForm o where o.formName = a.formName)", nativeQuery = true)
+    DynamicForm findMaxVersionFormByName(@Param("formName") String formName) throws Exception;
 
     /**
      * 通过名字查找表单，查找全部版本的
@@ -103,6 +103,6 @@ public interface IDynamicFormDao extends JpaRepository<DynamicForm, Integer> {
      * @throws Exception 查询异常
      */
     @Query(value = "select from DynamicForm o where o.formName = :formName order by formVersion asc limit 1", nativeQuery = true)
-    DynamicForm findMinVersionByFormName(String formName) throws Exception;
+    DynamicForm findMinVersionByFormName(@Param("formName") String formName) throws Exception;
 
 }

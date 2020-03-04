@@ -1,7 +1,7 @@
 package com.sdt.dynamicform.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sdt.cbb.dynamicforms.entity.BusinessObject;
+import com.sdt.dynamicform.entity.BusinessObject;
 
 import java.io.Serializable;
 
