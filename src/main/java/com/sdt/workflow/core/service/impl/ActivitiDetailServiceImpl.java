@@ -19,9 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
 import java.awt.*;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.*;

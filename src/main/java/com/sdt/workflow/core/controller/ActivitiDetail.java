@@ -1,6 +1,7 @@
 package com.sdt.workflow.core.controller;
 
 import com.sdt.workflow.core.service.ActivitiDetailService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.ActivitiException;
 import org.springframework.util.Assert;
@@ -23,6 +24,7 @@ import java.io.InputStream;
  */
 @RestController
 @RequestMapping("/workflow")
+@Api(value = "工作流获取相关细节", tags = "工作流获取相关细节")
 public class ActivitiDetail {
 
     @Resource

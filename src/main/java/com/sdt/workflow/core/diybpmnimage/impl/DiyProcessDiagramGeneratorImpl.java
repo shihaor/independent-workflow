@@ -1,7 +1,7 @@
 package com.sdt.workflow.core.diybpmnimage.impl;
 
-import com.sdt.cbb.workflow.diybpmnimage.IDiyProcessDiagramGenerator;
-import com.sdt.cbb.workflow.util.CommonUtils;
+import com.sdt.common.utils.CommonUtils;
+import com.sdt.workflow.core.diybpmnimage.IDiyProcessDiagramGenerator;
 import org.activiti.bpmn.model.Process;
 import org.activiti.bpmn.model.*;
 import org.activiti.image.impl.DefaultProcessDiagramGenerator;

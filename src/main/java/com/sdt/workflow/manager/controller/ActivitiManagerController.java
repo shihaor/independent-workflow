@@ -1,20 +1,23 @@
 package com.sdt.workflow.manager.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sdt.common.bean.PagerBean;
+import com.sdt.common.utils.JsonUtil;
+import com.sdt.common.utils.PageUtil;
 import com.sdt.workflow.manager.service.ActivitiManagerService;
 import com.sdt.workflow.manager.vo.DeploymentVO;
 import com.sdt.workflow.manager.vo.ProcessDefineVO;
 import com.sdt.workflow.manager.vo.TaskVO;
-import com.sdt.common.utils.JsonUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Task;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,16 +30,17 @@ import java.util.List;
  * @author shihaoran
  * @date 2020/2/22
  */
-@Controller
+@RestController
 @RequestMapping("/workflow")
+@Api(value = "管理工作流相关的接口", tags = "管理工作流相关的接口")
 public class ActivitiManagerController {
 
     @Resource
     private ActivitiManagerService activitiManagerService;
 
-    @ResponseBody
+    @ApiOperation(value = "获取所有未挂起的部署定义")
     @GetMapping(value = "/findAllDeployments", produces = "application/json;charset=UTF-8")
-    public String findAllDeployments() throws JsonProcessingException {
+    public String findAllDeployments(PagerBean pagerBean) throws Exception {
 
         List<Deployment> deploymentList = activitiManagerService.findAllDeployments();
         List<DeploymentVO> resultList = new ArrayList<>();
@@ -47,19 +51,22 @@ public class ActivitiManagerController {
             deploymentVO.setName(deployment.getName());
             resultList.add(deploymentVO);
         });
-        return JsonUtil.genJsonList(resultList);
+        int startPage = pagerBean.getStartPage();
+        int limit = pagerBean.getLimit();
+        return JsonUtil.genJsonFromList(PageUtil.pageSubList(resultList, startPage, limit), resultList.size(), startPage, limit);
     }
 
-    @ResponseBody
+    @ApiOperation(value = "获取我的申请")
     @GetMapping(value = "/listMyApplyList", produces = "application/json;charset=UTF-8")
-    public String listMyApply(HttpServletRequest request) throws JsonProcessingException {
+    public String listMyApply(PagerBean pagerBean, HttpServletRequest request) throws Exception {
         List<HistoricProcessInstance> resultList = activitiManagerService.listMyApplyList(request);
-        return JsonUtil.genJsonList(resultList);
+        int startPage = pagerBean.getStartPage();
+        int limit = pagerBean.getLimit();
+        return JsonUtil.genJsonFromList(PageUtil.pageSubList(resultList, startPage, limit), resultList.size(), startPage, limit);
     }
 
-    @ResponseBody
     @GetMapping(value = "/listMyTaskList", produces = "application/json;charset=UTF-8")
-    public String listMyTaskList(HttpServletRequest request) throws JsonProcessingException {
+    public String listMyTaskList(PagerBean pagerBean, HttpServletRequest request) throws Exception {
 
         List<Task> taskList = activitiManagerService.listMyTaskList(request);
         List<TaskVO> resultList = new ArrayList<>();
@@ -70,20 +77,24 @@ public class ActivitiManagerController {
             taskVO.setDescription(task.getDescription());
             resultList.add(taskVO);
         });
-        return JsonUtil.genJsonList(resultList);
+        int startPage = pagerBean.getStartPage();
+        int limit = pagerBean.getLimit();
+        return JsonUtil.genJsonFromList(PageUtil.pageSubList(resultList, startPage, limit), resultList.size(), startPage, limit);
     }
 
     @ResponseBody
     @GetMapping(value = "/listMyTaskOverList", produces = "application/json;charset=UTF-8")
-    public String listMyTaskOver(HttpServletRequest request) throws JsonProcessingException {
+    public String listMyTaskOver(PagerBean pagerBean, HttpServletRequest request) throws Exception {
 
         List<HistoricTaskInstance> resultList = activitiManagerService.listMyTaskOverList(request);
-        return JsonUtil.genJsonList(resultList);
+        int startPage = pagerBean.getStartPage();
+        int limit = pagerBean.getLimit();
+        return JsonUtil.genJsonFromList(PageUtil.pageSubList(resultList, startPage, limit), resultList.size(), startPage, limit);
     }
 
-    @ResponseBody
+    @ApiOperation(value = "获取所有的部署定义")
     @GetMapping(value = "/listAllBpmnList", produces = "application/json;charset=UTF-8")
-    public String listAllBpmnList() throws JsonProcessingException {
+    public String listAllBpmnList(PagerBean pagerBean) throws Exception {
         List<ProcessDefinition> definitionList = activitiManagerService.listAllBpmnList();
         List<ProcessDefineVO> resultList = new ArrayList<>();
         definitionList.forEach(processDefinition -> {
@@ -94,6 +105,8 @@ public class ActivitiManagerController {
             processDefineVO.setVersion(processDefinition.getVersion());
             resultList.add(processDefineVO);
         });
-        return JsonUtil.genJsonList(resultList);
+        int startPage = pagerBean.getStartPage();
+        int limit = pagerBean.getLimit();
+        return JsonUtil.genJsonFromList(PageUtil.pageSubList(resultList, startPage, limit), resultList.size(), startPage, limit);
     }
 }

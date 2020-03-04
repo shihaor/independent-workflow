@@ -2,6 +2,8 @@ package com.sdt.workflow.manager.controller;
 
 import com.sdt.workflow.manager.GitLog;
 import com.sdt.workflow.manager.service.IndexManagerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import java.util.List;
  * @date 2020/2/25
  */
 @Controller
+@Api(value = "获取首页信息")
 @RequestMapping("/index/manager")
 public class IndexManager {
 
@@ -26,6 +29,7 @@ public class IndexManager {
     private IndexManagerService indexManagerService;
 
     @GetMapping("/getIndexMsg")
+    @ApiOperation(value = "获取首页信息")
     public String getIndexMsg(Model model) throws IOException, GitAPIException {
 
         int accountNumber = indexManagerService.getAccountNumber();

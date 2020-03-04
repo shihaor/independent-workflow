@@ -1,6 +1,8 @@
 package com.sdt.workflow.core.controller;
 
 import com.sdt.workflow.core.service.StartActivitiService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.form.FormProperty;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,12 +24,14 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/workflow/start")
+@Api(value = "启动接口", tags = "启动接口")
 public class StartActiviti {
 
     @Resource
     private StartActivitiService startActivitiService;
 
     @GetMapping("/noForm/{id}")
+    @ApiOperation(value = "根据流程定义id，使用内置表单启动")
     public String noForm(@PathVariable("id") String processDefineId, Model model, HttpServletRequest request) throws Exception {
 
         HashMap<String, Object> map = startActivitiService.noForm(processDefineId, request);
@@ -37,6 +41,7 @@ public class StartActiviti {
     }
 
     @GetMapping("/normalTask/{id}")
+    @ApiOperation(value = "根据节点id完成指定节点，使用内置表单")
     public String normalTask(@PathVariable("id") String taskId, Model model) throws Exception {
 
         List<FormProperty> propertyList = startActivitiService.normalTask(taskId);

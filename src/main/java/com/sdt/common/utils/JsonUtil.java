@@ -82,7 +82,7 @@ public class JsonUtil {
      */
     public static String genJsonSuccess(Object results, String[] excludes) throws Exception {
         LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
-        map.put("success", true);
+        map.put("code", 0);
         map.put("msg", "成功!");
         map.put("data", results);
         beanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept(excludes);
@@ -111,7 +111,7 @@ public class JsonUtil {
         dataObject.put("totalNumber", toalNumber);
         dataObject.put("rowCount", limit);
         dataObject.put("nowPage", startPage);
-        map.put("success", true);
+        map.put("code", 0);
         map.put("msg", "成功!");
         map.put("data", dataObject);
         beanPropertyFilter = SimpleBeanPropertyFilter.serializeAllExcept(excludes);
@@ -139,7 +139,7 @@ public class JsonUtil {
         dataObject.put("totalNumber", totalNumber);
         dataObject.put("rowCount", limit);
         dataObject.put("nowPage", startPage);
-        map.put("success", true);
+        map.put("code", 0);
         map.put("msg", "成功!");
         map.put("data", dataObject);
         beanPropertyFilter = SimpleBeanPropertyFilter.serializeAll();
@@ -163,7 +163,7 @@ public class JsonUtil {
         LinkedHashMap<Object, Object> dataObject = new LinkedHashMap<>();
         dataObject.put("list", list);
         dataObject.put("totalNumber", totalNumber);
-        map.put("success", true);
+        map.put("code", 0);
         map.put("msg", "成功!");
         map.put("data", dataObject);
         String json = objectMapper.writeValueAsString(map);
@@ -181,7 +181,7 @@ public class JsonUtil {
      */
     public static String genJsonFail(int errNo, String errMsg) throws Exception {
         LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
-        map.put("success", false);
+        map.put("code", 1);
         map.put("msg", "错误码为：" + errNo + "错误信息：" + errMsg);
         String json = objectMapper.writeValueAsString(map);
         map.clear();
@@ -199,11 +199,11 @@ public class JsonUtil {
         LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
         String json = "";
         if (null != baseResults) {
-            map.put("success", true);
+            map.put("code", 0);
             map.put("msg", "成功!");
             map.put("data", baseResults);
         } else {
-            map.put("success", false);
+            map.put("code", 1);
             map.put("msg", "失败!");
             map.put("data", baseResults);
         }
@@ -220,7 +220,7 @@ public class JsonUtil {
      */
     public static String genJsonFromList(List list) throws Exception {
         LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
-        map.put("success", true);
+        map.put("code", 0);
         map.put("msg", "成功!");
         map.put("data", list);
         String json = objectMapper.writeValueAsString(map);
@@ -248,7 +248,7 @@ public class JsonUtil {
 
     public static String genJsonFail(String msg) throws Exception {
         LinkedHashMap<Object, Object> map = new LinkedHashMap<>();
-        map.put("success", false);
+        map.put("code", 1);
         map.put("msg", msg);
         String json = objectMapper.writeValueAsString(map);
         map.clear();
