@@ -63,7 +63,7 @@ public class DynamicFormsServiceImpl implements IDynamicFormsService {
                 String formName = form[3].toString();
                 if (i == 1) {
                     // 获取版本最低的表单的时间填充创建时间
-                    DynamicForm oldForm = dynamicFormDao.findMinVersionByFormName(formName);
+                    DynamicForm oldForm = dynamicFormDao.findMinVersionByFormName(formName).get(0);
                     form[1] = oldForm.getCreateTime();
                 }
             }

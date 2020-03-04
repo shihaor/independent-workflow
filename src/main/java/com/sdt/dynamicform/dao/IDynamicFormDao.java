@@ -21,7 +21,7 @@ public interface IDynamicFormDao extends JpaRepository<DynamicForm, Integer> {
      * @return 所有表单的集合
      * @throws Exception 查找异常
      */
-    @Query(value = "select a.id, a.createTime, a.updateTime, a.formName, a.formVersion, a.businessName from DynamicForm a where a.formVersion = (select max(o.formVersion) from DynamicForm o where o.formName = a.formName)  ORDER BY a.createTime desc ", nativeQuery = true)
+    @Query(value = "select a.id, a.createTime, a.updateTime, a.formName, a.formVersion, a.businessName from DynamicForm a where a.formVersion = (select max(o.formVersion) from DynamicForm o where o.formName = a.formName)  ORDER BY a.createTime desc ")
     List<DynamicForm> findAllForm();
 
     /**
@@ -30,7 +30,7 @@ public interface IDynamicFormDao extends JpaRepository<DynamicForm, Integer> {
      * @return 表单总数
      * @throws Exception 查找异常
      */
-    @Query(value = "select DISTINCT(o.formName) from DynamicForm o ", nativeQuery = true)
+    @Query(value = "select DISTINCT(o.formName) from DynamicForm o ")
     int obtainFormsTotal() throws Exception;
 
     /**
@@ -48,7 +48,7 @@ public interface IDynamicFormDao extends JpaRepository<DynamicForm, Integer> {
      * @return 表单实体
      * @throws Exception 查找异常
      */
-    @Query(value = "select from DynamicForm a where a.formName = ?1 and a.formVersion = (select max(o.formVersion) from DynamicForm o where o.formName = a.formName)", nativeQuery = true)
+    @Query(value = "select a from DynamicForm a where a.formName = ?1 and a.formVersion = (select max(o.formVersion) from DynamicForm o where o.formName = a.formName)")
     DynamicForm findMaxVersionFormByName(@Param("formName") String formName) throws Exception;
 
     /**
@@ -66,7 +66,7 @@ public interface IDynamicFormDao extends JpaRepository<DynamicForm, Integer> {
      * @param processDefineId 流程定义id
      * @return 表单id
      */
-    @Query(value = "select o.id from DynamicForm o where o.businessId = :processDefineId  ORDER BY o.formVersion desc", nativeQuery = true)
+    @Query(value = "select o.id from DynamicForm o where o.businessId = :processDefineId  ORDER BY o.formVersion desc")
     Integer getFormIdByProcessDefineId(@Param("processDefineId") String processDefineId);
 
     /**
@@ -102,7 +102,7 @@ public interface IDynamicFormDao extends JpaRepository<DynamicForm, Integer> {
      * @return 表单
      * @throws Exception 查询异常
      */
-    @Query(value = "select from DynamicForm o where o.formName = :formName order by formVersion asc limit 1", nativeQuery = true)
-    DynamicForm findMinVersionByFormName(@Param("formName") String formName) throws Exception;
+    @Query(value = "select o from DynamicForm o where o.formName = :formName order by formVersion asc")
+    List<DynamicForm> findMinVersionByFormName(@Param("formName") String formName) throws Exception;
 
 }
