@@ -1,7 +1,7 @@
 package com.sdt.workflow.core.controller;
 
 import com.sdt.workflow.core.service.DeleteActivitiService;
-import com.sdt.workflow.utils.JsonUtil;
+import com.sdt.common.utils.JsonUtil;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

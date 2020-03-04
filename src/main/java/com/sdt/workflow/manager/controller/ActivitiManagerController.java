@@ -5,7 +5,7 @@ import com.sdt.workflow.manager.service.ActivitiManagerService;
 import com.sdt.workflow.manager.vo.DeploymentVO;
 import com.sdt.workflow.manager.vo.ProcessDefineVO;
 import com.sdt.workflow.manager.vo.TaskVO;
-import com.sdt.workflow.utils.JsonUtil;
+import com.sdt.common.utils.JsonUtil;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.repository.Deployment;

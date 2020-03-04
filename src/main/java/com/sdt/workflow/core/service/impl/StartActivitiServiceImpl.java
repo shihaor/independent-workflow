@@ -2,7 +2,7 @@ package com.sdt.workflow.core.service.impl;
 
 import com.sdt.workflow.core.service.StartActivitiService;
 import com.sdt.workflow.person.vo.Person;
-import com.sdt.workflow.utils.ActivitiUtil;
+import com.sdt.common.utils.ActivitiUtil;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
