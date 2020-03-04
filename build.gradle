@@ -65,6 +65,8 @@ dependencies {
     // commons
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.7'
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+
 
     // thymeleaf
     compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.11.RELEASE'
