@@ -17,7 +17,6 @@ repositories {
     maven{
         url 'http://maven.aliyun.com/nexus/content/groups/public/'
     }
-    mavenCentral()
 }
 
 dependencies {
@@ -92,4 +91,11 @@ dependencies {
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
+    // https://mvnrepository.com/artifact/com.thetransactioncompany/cors-filter
+    compile group: 'com.thetransactioncompany', name: 'cors-filter', version: '2.5'
+
+
 }
+//dependencies {
+//    compile fileTree(dir: 'dist', include: ['*.jar'])
+//}

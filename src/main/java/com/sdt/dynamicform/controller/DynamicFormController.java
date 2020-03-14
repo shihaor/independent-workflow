@@ -36,7 +36,7 @@ public class DynamicFormController {
     @ApiOperation(value = "更新或者新增表单")
     public String saveOrUpdateForm(@RequestBody ContainAllVO containAllVO) throws Exception {
 
-        this.dynamicFormsService.saveOrUpdateForm(containAllVO, containAllVO.getFormName(), containAllVO.getId(), containAllVO.getProcName());
+        this.dynamicFormsService.saveOrUpdateForm(containAllVO);
         return JsonUtil.genJsonSuccess("表单保存正常");
     }
 
@@ -44,7 +44,7 @@ public class DynamicFormController {
     @ApiOperation(value = "分页查询全部的表单")
     public String obtainListForms(PagerBean pagerBean) throws Exception {
 
-        List<DynamicForm> resultList = this.dynamicFormsService.obtainListForms(pagerBean);
+        List<DynamicForm> resultList = this.dynamicFormsService.obtainListForms();
         int startPage = pagerBean.getStartPage();
         int limit = pagerBean.getLimit();
         return JsonUtil.genJsonFromList(PageUtil.pageSubList(resultList, startPage, limit), resultList.size(), startPage, limit);
@@ -68,20 +68,5 @@ public class DynamicFormController {
         this.dynamicFormsService.deleteForm(id);
         return JsonUtil.genJsonSuccess("删除成功");
     }
-
-    @GetMapping(value = "/findFormByName")
-    @ApiOperation(value = "通过表单名字查找")
-    public String findFormByName(@RequestParam("formName") String formName) throws Exception {
-
-        DynamicForm form = this.dynamicFormsService.findByName(formName);
-        return JsonUtil.genJsonSuccess(form);
-    }
-
-    @PostMapping(value = "/copyFormToOtherProc")
-    @ApiOperation(value = "将表单复制给其他流程")
-    public String copyFormToOtherProc(ContainAllVO containAllVO, String processDefineId) throws Exception {
-
-        this.dynamicFormsService.copyFormToOtherProc(containAllVO, processDefineId);
-        return JsonUtil.genJsonSuccess("复制成功");
-    }
 }
+

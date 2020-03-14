@@ -19,14 +19,84 @@ public class ContainAllVO implements Serializable {
     private static final long serialVersionUID = -5217284035718038879L;
 
     /**
-     * 表单控件类型集合
+     * 表单id
      */
-    private List<FormFieldVO> list;
+    private Integer id;
 
     /**
-     * 表单配置
+     * 表单控件类型集合
      */
-    private FormConfig config;
+    private List<Column> column;
+
+    /**
+     * 标签方向
+     */
+    private String labelPosition;
+
+    /**
+     * 标签后缀
+     */
+    private String labelSuffix;
+
+    /**
+     * 项与项之间的间隔
+     */
+    private Integer gutter;
+
+    /**
+     * 标签宽度
+     */
+    private String labelWidth;
+
+    /**
+     * 显示按钮
+     */
+    private Boolean menuBtn;
+
+    /**
+     * 显示提交按钮
+     */
+    private Boolean submitBtn;
+
+    /**
+     * 提交按钮的大小
+     */
+    private String submitSize;
+
+    /**
+     * 提交按钮的内容
+     */
+    private String submitText;
+
+    /**
+     * 显示清空按钮
+     */
+    private Boolean emptyBtn;
+
+    /**
+     * 清空按钮大小
+     */
+    private String emptySize;
+
+    /**
+     * 清空按钮内容
+     */
+    private String emptyText;
+
+    /**
+     * 菜单按钮位置
+     */
+    private String menuPosition;
+
+    /**
+     * 菜单按钮排版
+     */
+    private String menuPostion;
+
+    /**
+     * 分组
+     */
+    private List<Group> group;
 
     /**
      * 表单名字
@@ -34,26 +104,16 @@ public class ContainAllVO implements Serializable {
     private String formName;
 
     /**
-     * 表单id
+     * 业务对象的id
      */
-    private Integer id;
+    private Integer BusinessId;
 
-    /**
-     * 业务对象名称
-     */
-    private String procName;
-
-    /**
-     * 流程实例id
-     */
-    private String processDefineId;
-
-    public String getProcessDefineId() {
-        return processDefineId;
+    public Integer getBusinessId() {
+        return BusinessId;
     }
 
-    public void setProcessDefineId(String processDefineId) {
-        this.processDefineId = processDefineId;
+    public void setBusinessId(Integer businessId) {
+        BusinessId = businessId;
     }
 
     public Integer getId() {
@@ -64,28 +124,125 @@ public class ContainAllVO implements Serializable {
         this.id = id;
     }
 
-    public String getProcName() {
-        return procName;
+
+    public List<Column> getColumn() {
+        return column;
     }
 
-    public void setProcName(String procName) {
-        this.procName = procName;
+    public void setColumn(List<Column> column) {
+        this.column = column;
     }
 
-    public void setList(List<FormFieldVO> list) {
-        this.list = list;
+    public String getLabelPosition() {
+        return labelPosition;
     }
 
-    public List<FormFieldVO> getList() {
-        return list;
+    public void setLabelPosition(String labelPosition) {
+        this.labelPosition = labelPosition;
     }
 
-    public void setConfig(FormConfig config) {
-        this.config = config;
+    public String getLabelSuffix() {
+        return labelSuffix;
     }
 
-    public FormConfig getConfig() {
-        return config;
+    public void setLabelSuffix(String labelSuffix) {
+        this.labelSuffix = labelSuffix;
+    }
+
+    public Integer getGutter() {
+        return gutter;
+    }
+
+    public void setGutter(Integer gutter) {
+        this.gutter = gutter;
+    }
+
+    public String getLabelWidth() {
+        return labelWidth;
+    }
+
+    public void setLabelWidth(String labelWidth) {
+        this.labelWidth = labelWidth;
+    }
+
+    public Boolean getMenuBtn() {
+        return menuBtn;
+    }
+
+    public void setMenuBtn(Boolean menuBtn) {
+        this.menuBtn = menuBtn;
+    }
+
+    public Boolean getSubmitBtn() {
+        return submitBtn;
+    }
+
+    public void setSubmitBtn(Boolean submitBtn) {
+        this.submitBtn = submitBtn;
+    }
+
+    public String getSubmitSize() {
+        return submitSize;
+    }
+
+    public void setSubmitSize(String submitSize) {
+        this.submitSize = submitSize;
+    }
+
+    public String getSubmitText() {
+        return submitText;
+    }
+
+    public void setSubmitText(String submitText) {
+        this.submitText = submitText;
+    }
+
+    public Boolean getEmptyBtn() {
+        return emptyBtn;
+    }
+
+    public void setEmptyBtn(Boolean emptyBtn) {
+        this.emptyBtn = emptyBtn;
+    }
+
+    public String getEmptySize() {
+        return emptySize;
+    }
+
+    public void setEmptySize(String emptySize) {
+        this.emptySize = emptySize;
+    }
+
+    public String getEmptyText() {
+        return emptyText;
+    }
+
+    public void setEmptyText(String emptyText) {
+        this.emptyText = emptyText;
+    }
+
+    public String getMenuPosition() {
+        return menuPosition;
+    }
+
+    public void setMenuPosition(String menuPosition) {
+        this.menuPosition = menuPosition;
+    }
+
+    public String getMenuPostion() {
+        return menuPostion;
+    }
+
+    public void setMenuPostion(String menuPostion) {
+        this.menuPostion = menuPostion;
+    }
+
+    public List<Group> getGroup() {
+        return group;
+    }
+
+    public void setGroup(List<Group> group) {
+        this.group = group;
     }
 
     public String getFormName() {
@@ -95,4 +252,5 @@ public class ContainAllVO implements Serializable {
     public void setFormName(String formName) {
         this.formName = formName;
     }
+
 }

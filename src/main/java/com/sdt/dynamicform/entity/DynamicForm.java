@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sdt.eims.base.bean.AbstractBaseBean;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.annotation.Version;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,12 +32,9 @@ public class DynamicForm extends AbstractBaseBean implements Serializable {
 
     @ApiModelProperty(name = "业务对象的id")
     @Column(name = "business_id", length = 64)
-    private String businessId;
+    private Integer businessId;
 
-    @ApiModelProperty(name = "业务对象的名称")
-    @Column(name = "business_name", length = 64)
-    private String businessName;
-
+    @Version
     @ApiModelProperty(name = "版本", dataType = "Long")
     @Column(name = "form_version", length = 20)
     private Long formVersion;
@@ -54,11 +52,11 @@ public class DynamicForm extends AbstractBaseBean implements Serializable {
         this.formName = formName;
     }
 
-    public String getBusinessId() {
+    public Integer getBusinessId() {
         return businessId;
     }
 
-    public void setBusinessId(String businessId) {
+    public void setBusinessId(Integer businessId) {
         this.businessId = businessId;
     }
 
@@ -76,14 +74,6 @@ public class DynamicForm extends AbstractBaseBean implements Serializable {
 
     public void setFormData(String formData) {
         this.formData = formData;
-    }
-
-    public String getBusinessName() {
-        return businessName;
-    }
-
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
     }
 
 }

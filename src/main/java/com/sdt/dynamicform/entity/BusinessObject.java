@@ -25,25 +25,40 @@ public class BusinessObject extends AbstractBaseBean {
     private static final long serialVersionUID = -7647495599959129185L;
 
     @ApiModelProperty(name = "流程定义id")
-    @Column(name = "process_def_id", length = 64)
-    private String processDefId;
+    @Column(name = "process_def_id", length = 64, unique = true)
+    private String processDefineId;
+
+    @ApiModelProperty(name = "其他业务定义")
+    @Column(name = "other_business", length = 64)
+    private String otherBusiness;
 
     @ApiModelProperty(name = "业务对象名称")
     @Column(name = "business_name", length = 50, unique = true)
     private String businessName;
 
-    @Lob
-    @ApiModelProperty(name = "业务对象配置的绝对路径")
-    @Column(name = "business_path", columnDefinition = "text")
-    private String businessPath;
-
-    @Column(name = "form_id", length = 36)
-    @ApiModelProperty(name = "表单id对应表单表中的unique_biaoshi")
-    private String formId;
-
     @Column(name = "type", length = 20)
     @ApiModelProperty(name = "业务对象的类型")
     private String type;
+
+    @Lob
+    @Column(name = "descript", columnDefinition = "text")
+    private String descript;
+
+    public String getOtherBusiness() {
+        return otherBusiness;
+    }
+
+    public void setOtherBusiness(String otherBusiness) {
+        this.otherBusiness = otherBusiness;
+    }
+
+    public String getDescript() {
+        return descript;
+    }
+
+    public void setDescript(String descript) {
+        this.descript = descript;
+    }
 
     public String getType() {
         return type;
@@ -53,20 +68,12 @@ public class BusinessObject extends AbstractBaseBean {
         this.type = type;
     }
 
-    public String getFormId() {
-        return formId;
+    public String getProcessDefineId() {
+        return processDefineId;
     }
 
-    public void setFormId(String formId) {
-        this.formId = formId;
-    }
-
-    public String getProcessDefId() {
-        return processDefId;
-    }
-
-    public void setProcessDefId(String processDefId) {
-        this.processDefId = processDefId;
+    public void setProcessDefineId(String processDefineId) {
+        this.processDefineId = processDefineId;
     }
 
     public String getBusinessName() {
@@ -77,11 +84,5 @@ public class BusinessObject extends AbstractBaseBean {
         this.businessName = businessName;
     }
 
-    public String getBusinessPath() {
-        return businessPath;
-    }
 
-    public void setBusinessPath(String businessPath) {
-        this.businessPath = businessPath;
-    }
 }

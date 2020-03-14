@@ -1,11 +1,15 @@
 package com.sdt.common.utils;
 
 import com.sdt.common.constant.DatePattern;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 
+import java.beans.FeatureDescriptor;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.stream.Stream;
 
 /**
  * 通用工具类
@@ -96,5 +100,20 @@ public class CommonUtils {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DatePattern.DATE_ALL);
         return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 复制对象的时候为空不复制
+     * BeanUtils.copyProperties(src, target, getNullPropertyNames(src))
+     *
+     * @param source 源对象
+     * @return 新的对象
+     */
+    public static String[] getNullPropertyNames(Object source) {
+        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+        return Stream.of(wrappedSource.getPropertyDescriptors())
+                .map(FeatureDescriptor::getName)
+                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
+                .toArray(String[]::new);
     }
 }
