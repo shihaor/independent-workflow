@@ -48,10 +48,12 @@ public class DynamicFormsServiceImpl implements IDynamicFormsService {
         }
         // 保存表单
         DynamicForm newForm = new DynamicForm();
-        newForm.setFormData(mapper.writeValueAsString(containAllVO));
+        String formData = mapper.writeValueAsString(containAllVO);
+        newForm.setFormData(formData);
         newForm.setBusinessId(containAllVO.getBusinessId());
         newForm.setFormName(containAllVO.getFormName());
         Integer formId = containAllVO.getId();
+        System.out.println(containAllVO.getGroup().get(0).getColumn().get(0).getDicQuery().get());
         DynamicForm oldForm = dynamicFormDao.findOne(formId);
         if (null != oldForm) {
             BeanUtils.copyProperties(newForm, oldForm, CommonUtils.getNullPropertyNames(newForm));

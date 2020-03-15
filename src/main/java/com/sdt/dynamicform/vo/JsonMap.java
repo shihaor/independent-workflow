@@ -1,5 +1,6 @@
 package com.sdt.dynamicform.vo;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -28,7 +29,8 @@ public class JsonMap implements Serializable {
         pro.put(fieldName, value);
     }
 
-    public Object get(String fieldName) {
-        return this.pro.get(fieldName);
+    @JsonAnyGetter
+    public Map<String, Object> get() {
+        return this.pro;
     }
 }
