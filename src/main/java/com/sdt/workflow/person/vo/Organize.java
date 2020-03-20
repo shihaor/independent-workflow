@@ -1,5 +1,7 @@
 package com.sdt.workflow.person.vo;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 机构信息
  *
@@ -11,11 +13,13 @@ public class Organize {
     /**
      * 机构id
      */
+    @NotNull(message = "机构id不能为空")
     private String orgId;
 
     /**
      * 机构name
      */
+    @NotNull(message = "机构名字不能为空")
     private String name;
 
     public String getOrgId() {

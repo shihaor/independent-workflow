@@ -19,9 +19,9 @@ public class Person {
     private String name;
 
     /**
-     * 人员的别名
+     * 系统的名字
      */
-    private String lastName;
+    private String sysName;
 
     /**
      * 机构的姓名
@@ -57,12 +57,12 @@ public class Person {
         this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getSysName() {
+        return sysName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setSysName(String sysName) {
+        this.sysName = sysName;
     }
 
     public String getOrgId() {

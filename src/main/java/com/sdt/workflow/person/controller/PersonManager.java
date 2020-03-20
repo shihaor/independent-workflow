@@ -1,14 +1,10 @@
 package com.sdt.workflow.person.controller;
 
-import com.sdt.workflow.annotation.LoginComponent;
+import com.sdt.common.annotation.LoginComponent;
+import com.sdt.common.result.Result;
 import com.sdt.workflow.person.service.PersonManagerService;
 import com.sdt.workflow.person.vo.Person;
-import com.sdt.common.utils.JsonUtil;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author shihaoran
  * @date 2020/2/23
  */
-@Controller
+@RestController
 @LoginComponent
 @RequestMapping("/user")
 public class PersonManager {
@@ -27,18 +23,21 @@ public class PersonManager {
     @Resource
     private PersonManagerService personManagerService;
 
-    @PostMapping("/check")
-    public String check(@RequestBody Person person, HttpServletRequest request) throws Exception {
+    @PostMapping(value = "/check")
+    public Result check(@RequestParam("id") String id, @RequestParam("password") String password, HttpServletRequest request) throws Exception {
 
-        personManagerService.checkPassword(person, request);
-        return JsonUtil.genJsonSuccess(true);
+        Person person = new Person();
+        person.setId(id);
+        person.setPassword(password);
+        Person result = personManagerService.checkPassword(person, request);
+        return Result.success(result);
     }
 
     @GetMapping("/out")
-    public String out(HttpServletRequest request) {
+    public Result out(HttpServletRequest request) throws Exception {
 
         request.getSession().removeAttribute("person");
-        return "login.html";
+        return Result.success("登出成功");
     }
 
 }

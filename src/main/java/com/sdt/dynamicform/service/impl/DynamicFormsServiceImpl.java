@@ -49,7 +49,7 @@ public class DynamicFormsServiceImpl implements IDynamicFormsService {
         // 保存表单
         DynamicForm newForm = new DynamicForm();
         String formData = mapper.writeValueAsString(containAllVO);
-        newForm.setFormData(formData);
+        newForm.setFormStyle(formData);
         newForm.setBusinessId(containAllVO.getBusinessId());
         newForm.setFormName(containAllVO.getFormName());
         Integer formId = containAllVO.getId();

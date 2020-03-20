@@ -1,9 +1,9 @@
 package com.sdt.workflow.manager.service.impl;
 
+import com.sdt.common.exception.GlobalException;
+import com.sdt.common.result.CodeMsg;
 import com.sdt.workflow.manager.service.DeploymentOperatorService;
-import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
-import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -26,41 +26,31 @@ public class DeploymentOperatorServiceImpl implements DeploymentOperatorService 
     @Override
     public void suspendDeployment(String id) {
 
-        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(id).singleResult();
         try {
-            repositoryService.suspendProcessDefinitionById(processDefinition.getId());
+            repositoryService.suspendProcessDefinitionById(id);
         } catch (Exception e) {
-            throw new ActivitiException("重复挂起");
+            throw new GlobalException(CodeMsg.SUSPEND_PROCESS_FAIL);
         }
     }
 
     @Override
     public void activeDeployment(String id) {
 
-        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(id).singleResult();
         try {
-            repositoryService.activateProcessDefinitionById(processDefinition.getId());
+            repositoryService.activateProcessDefinitionById(id);
         } catch (Exception e) {
-            throw new ActivitiException("重复激活");
+            throw new GlobalException(CodeMsg.ACTIVE_PROCESS_FAIL);
         }
     }
 
     @Override
     public void deleteDeployment(String id) {
-
         try {
+            ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionId(id).singleResult();
             // 连带历史记录都删除
-            repositoryService.deleteDeployment(id, true);
+            repositoryService.deleteDeployment(processDefinition.getDeploymentId(), true);
         } catch (Exception e) {
-            throw new ActivitiException("删除失败");
+            throw new GlobalException(CodeMsg.DELETE_DEPLOYMENT_FAIL);
         }
-    }
-
-    @Override
-    public byte[] getBpmn(String id) {
-
-        Model model = repositoryService.createModelQuery().deploymentId(id).singleResult();
-        byte[] sources = repositoryService.getModelEditorSourceExtra(model.getId());
-        return sources;
     }
 }

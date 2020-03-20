@@ -288,6 +288,32 @@ public class Column {
      */
     private String valueFormat;
 
+    /**
+     * 不可见节点
+     */
+    private List<String> noViewTask;
+
+    /**
+     * 不可编辑节点
+     */
+    private List<String> noEditTask;
+
+    public List<String> getNoViewTask() {
+        return noViewTask;
+    }
+
+    public void setNoViewTask(List<String> noViewTask) {
+        this.noViewTask = noViewTask;
+    }
+
+    public List<String> getNoEditTask() {
+        return noEditTask;
+    }
+
+    public void setNoEditTask(List<String> noEditTask) {
+        this.noEditTask = noEditTask;
+    }
+
     public String getIcon() {
         return icon;
     }

@@ -1,6 +1,9 @@
 package com.sdt.workflow.core.service;
 
+import com.sdt.workflow.vo.DisplayProcessDetailVO;
+
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * 工作流获取详细的接口
@@ -18,4 +21,12 @@ public interface ActivitiDetailService {
      * @throws Exception 获取当前节点图片异常
      */
     InputStream obtainProcessNowNodePng(String processInstanceId);
+
+    /**
+     * 获取流程的详细
+     *
+     * @param processInstanceId 流程实例id
+     * @return 前端展示的vo
+     */
+    List<DisplayProcessDetailVO> obtainProcessDetail(String processInstanceId);
 }

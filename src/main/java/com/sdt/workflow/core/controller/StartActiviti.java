@@ -1,14 +1,14 @@
 package com.sdt.workflow.core.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sdt.common.result.Result;
 import com.sdt.workflow.core.service.StartActivitiService;
+import com.sdt.workflow.vo.ActivitiFormVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.form.FormProperty;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -30,25 +30,27 @@ public class StartActiviti {
     @Resource
     private StartActivitiService startActivitiService;
 
-    @GetMapping("/noForm/{id}")
+    @GetMapping(value = "/noForm/{id}")
     @ApiOperation(value = "根据流程定义id，使用内置表单启动")
-    public String noForm(@PathVariable("id") String processDefineId, Model model, HttpServletRequest request) throws Exception {
+    public Result<Object> noForm(@PathVariable("id") String processDefineId, HttpServletRequest request) throws Exception {
 
         HashMap<String, Object> map = startActivitiService.noForm(processDefineId, request);
-        model.addAttribute("list", map.get("list"));
-        model.addAttribute("taskId", map.get("taskId"));
-        return "work.html";
+        return Result.success(map);
     }
 
-    @GetMapping("/normalTask/{id}")
+    @GetMapping(value = "/normalTask/{id}")
     @ApiOperation(value = "根据节点id完成指定节点，使用内置表单")
-    public String normalTask(@PathVariable("id") String taskId, Model model) throws Exception {
+    public Result<Object> normalTask(@PathVariable("id") String taskId) {
 
         List<FormProperty> propertyList = startActivitiService.normalTask(taskId);
-        model.addAttribute("list", propertyList);
-        model.addAttribute("taskId", taskId);
-        return "work.html";
+        return Result.success(propertyList);
     }
 
+    @PostMapping(value = "/hasForm")
+    @ApiOperation(value = "携带表单启动流程")
+    public Result hasForm(@RequestBody ActivitiFormVO activitiFormVO, HttpServletRequest request) throws JsonProcessingException {
+        startActivitiService.hasForm(activitiFormVO, request);
+        return Result.success("流程携带表单启动成功");
+    }
 
 }

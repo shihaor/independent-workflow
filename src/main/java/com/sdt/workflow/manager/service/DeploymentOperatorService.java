@@ -29,11 +29,4 @@ public interface DeploymentOperatorService {
      */
     void deleteDeployment(String id);
 
-    /**
-     * 获取流程的bpmn图片
-     *
-     * @param id 流程部署id
-     * @return bpmn图片的字节流
-     */
-    byte[] getBpmn(String id);
 }

@@ -19,7 +19,7 @@ import java.io.Serializable;
  * @author shihaoran
  */
 @Entity
-@Table(name = "e_form")
+@Table(name = "form")
 @ApiModel(value = "表单实体")
 @JsonIgnoreProperties(value = {"uuid", "deleted", "deleteTime", "unique_biaoshi"})
 public class DynamicForm extends AbstractBaseBean implements Serializable {
@@ -41,8 +41,8 @@ public class DynamicForm extends AbstractBaseBean implements Serializable {
 
     @Lob
     @ApiModelProperty(name = "表单的json数据")
-    @Column(name = "form_data", columnDefinition = "text")
-    private String formData;
+    @Column(name = "form_style", columnDefinition = "text")
+    private String formStyle;
 
     public String getFormName() {
         return formName;
@@ -68,12 +68,11 @@ public class DynamicForm extends AbstractBaseBean implements Serializable {
         this.formVersion = formVersion;
     }
 
-    public String getFormData() {
-        return formData;
+    public String getFormStyle() {
+        return formStyle;
     }
 
-    public void setFormData(String formData) {
-        this.formData = formData;
+    public void setFormStyle(String formStyle) {
+        this.formStyle = formStyle;
     }
-
 }

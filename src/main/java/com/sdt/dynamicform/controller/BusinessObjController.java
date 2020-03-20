@@ -1,15 +1,15 @@
 package com.sdt.dynamicform.controller;
 
 import com.sdt.common.bean.PagerBean;
+import com.sdt.common.handler.LogDocumentary;
+import com.sdt.common.result.Result;
+import com.sdt.common.utils.CommonUtils;
 import com.sdt.dynamicform.entity.BusinessObject;
 import com.sdt.dynamicform.service.IBusinessObjService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -30,29 +30,30 @@ public class BusinessObjController {
 
     @PostMapping("/addOrUpdate")
     @ApiOperation(value = "添加或者更新业务对象")
-    public String addOrUpdate(BusinessObject businessObject) throws Exception {
-        processBusiness.addOrUpdate(businessObject);
-        return businessObject.toString() + "保存成功";
+    public Result addOrUpdate(BusinessObject businessObject) throws Exception {
+        BusinessObject result = processBusiness.addOrUpdate(businessObject);
+        return Result.success(result.getBusinessName() + "保存成功");
     }
 
-    @GetMapping("/viewBusiness")
+    @LogDocumentary(action = "查找业务对象")
+    @GetMapping("/viewBusiness/{id}")
     @ApiOperation(value = "查找业务对象")
-    public String viewBusiness(Integer id) {
+    public Result viewBusiness(@PathVariable("id") Integer id) {
         BusinessObject result = processBusiness.viewBusiness(id);
-        return result.toString();
+        return Result.success(result);
     }
 
-    @GetMapping("/deleteBusiness")
+    @GetMapping("/deleteBusiness/{id}")
     @ApiOperation(value = "删除业务对象")
-    public String deleteBusiness(Integer id) {
+    public Result deleteBusiness(@PathVariable("id") Integer id) {
         processBusiness.deleteBusiness(id);
-        return "删除成功";
+        return Result.success("删除业务对象成功");
     }
 
     @PostMapping("/obtainBusiness")
-    @ApiOperation(value = "删除业务对象")
-    public List<BusinessObject> obtainBusiness(PagerBean pagerBean, BusinessObject businessObject) {
+    @ApiOperation(value = "获取业务对象列表")
+    public Result obtainBusiness(PagerBean pagerBean, BusinessObject businessObject) {
         List<BusinessObject> resultList = processBusiness.obtainBusiness(pagerBean, businessObject);
-        return resultList;
+        return CommonUtils.listResult(pagerBean, resultList);
     }
 }

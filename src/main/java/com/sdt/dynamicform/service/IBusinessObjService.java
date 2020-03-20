@@ -18,7 +18,7 @@ public interface IBusinessObjService {
      *
      * @param businessObject 业务对象
      */
-    void addOrUpdate(BusinessObject businessObject) throws Exception;
+    BusinessObject addOrUpdate(BusinessObject businessObject) throws Exception;
 
     /**
      * 通过id查找

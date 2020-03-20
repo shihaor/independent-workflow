@@ -1,4 +1,4 @@
-package com.sdt.workflow.annotation;
+package com.sdt.common.annotation;
 
 /**
  * 用来过滤登录接口

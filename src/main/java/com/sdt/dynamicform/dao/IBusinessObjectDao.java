@@ -11,4 +11,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface IBusinessObjectDao extends JpaRepository<BusinessObject, Integer> {
 
+    /**
+     * 通过流程定义id查找业务对象
+     *
+     * @param processDefineId 流程定义id
+     * @return 业务对象
+     */
+    BusinessObject findByProcessDefineIdAndDeletedIsFalse(String processDefineId);
 }

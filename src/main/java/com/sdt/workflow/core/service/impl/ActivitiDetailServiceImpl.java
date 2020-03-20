@@ -1,17 +1,24 @@
 package com.sdt.workflow.core.service.impl;
 
+import com.sdt.common.constant.DatePattern;
 import com.sdt.common.constant.WorkflowConstants;
+import com.sdt.common.exception.GlobalException;
+import com.sdt.common.result.CodeMsg;
+import com.sdt.common.utils.CommonUtils;
 import com.sdt.workflow.core.diybpmnimage.impl.DiyProcessDiagramGeneratorImpl;
 import com.sdt.workflow.core.service.ActivitiDetailService;
+import com.sdt.workflow.vo.DisplayProcessDetailVO;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowNode;
 import org.activiti.bpmn.model.SequenceFlow;
-import org.activiti.engine.ActivitiException;
 import org.activiti.engine.HistoryService;
+import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.runtime.Execution;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -44,11 +51,14 @@ public class ActivitiDetailServiceImpl implements ActivitiDetailService {
     @Resource
     private RuntimeService runtimeService;
 
+    @Resource
+    private IdentityService identityService;
+
     @Override
     public InputStream obtainProcessNowNodePng(String processInstanceId) {
 
         if (StringUtils.isBlank(processInstanceId)) {
-            throw new ActivitiException("流程实例参数不能为空，这样取不到图片");
+            throw new GlobalException(CodeMsg.PROCESSINSTANCE_ID_NULL);
         }
 
         // 根据processInstanceId获取历史流程实例
@@ -79,6 +89,70 @@ public class ActivitiDetailServiceImpl implements ActivitiDetailService {
         return diagramGenerator.generateDiagram(bpmnModel, "png", highLightedActivitiList,
                 highLightedFlows, "宋体", "宋体", "宋体",
                 null, 1.0, new Color[]{WorkflowConstants.COLOR_NORMAL, WorkflowConstants.COLOR_CURRENT}, currIds);
+    }
+
+    @Override
+    public List<DisplayProcessDetailVO> obtainProcessDetail(String processInstanceId) {
+
+        // 1、获取节点的集合
+        List<HistoricTaskInstance> oldTaskList = historyService.createHistoricTaskInstanceQuery().processInstanceId(processInstanceId).list();
+        // 2、获取历史流程实例
+        HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+        // 3、获取发起人
+        String sendPerson = historicProcessInstance.getStartUserId();
+        List<DisplayProcessDetailVO> resultList = new ArrayList<>();
+        for (HistoricTaskInstance task : oldTaskList) {
+            DisplayProcessDetailVO displayProcessDetailVO = new DisplayProcessDetailVO();
+            String handleName = task.getName();
+            HistoricVariableInstance person = historyService.createHistoricVariableInstanceQuery().processInstanceId(task.getProcessInstanceId()).variableNameLike("receivedPerson").singleResult();
+            String receivedPerson = person.getValue().toString();
+            Date startTime = task.getStartTime();
+            Date endTime = task.getEndTime();
+            String startDate = null;
+            String endDate = null;
+            String waitTime = null;
+            Long inMillis = task.getDurationInMillis();
+            long durationInMillis;
+
+            if (StringUtils.isEmpty(sendPerson) || StringUtils.isEmpty(handleName) || StringUtils.isEmpty(receivedPerson)) {
+                return null;
+            }
+
+            if ((null != startTime) && (null != endTime) && (null != inMillis)) {
+                startDate = CommonUtils.dateToString(startTime, DatePattern.DATE_ALL);
+                endDate = CommonUtils.dateToString(endTime, DatePattern.DATE_ALL);
+                durationInMillis = inMillis / 1000;
+                waitTime = durationInMillis + "秒";
+                if (durationInMillis >= 3600) {
+                    waitTime = (durationInMillis / 3600) + "时" + (durationInMillis % 3600) + "秒";
+                }
+            }
+            try {
+                String sendUser = this.getUserNameByUserId(sendPerson);
+                String recUser = this.getUserNameByUserId(receivedPerson);
+                displayProcessDetailVO.setHandleName(handleName);
+                displayProcessDetailVO.setSendPerson(sendUser);
+                displayProcessDetailVO.setReceivedPerson(recUser);
+                displayProcessDetailVO.setStartDate(startDate);
+                displayProcessDetailVO.setEndDate(endDate);
+                displayProcessDetailVO.setWaitTime(waitTime);
+            } catch (Exception e) {
+                throw new GlobalException(CodeMsg.PROCESS_DETAIL_PARAM_ERROR);
+            }
+            resultList.add(displayProcessDetailVO);
+        }
+        return resultList;
+
+    }
+
+    /**
+     * 通过userId获取username
+     *
+     * @param userId userId
+     * @return username
+     */
+    private String getUserNameByUserId(String userId) {
+        return identityService.createUserQuery().userId(userId).singleResult().getFirstName();
     }
 
     /**

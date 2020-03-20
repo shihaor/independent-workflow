@@ -14,4 +14,12 @@ public interface DeleteActivitiService {
      * @param processInstanceId 流程实例id
      */
     void deleteNoReason(String processInstanceId);
+
+    /**
+     * 删除正在执行的流程
+     *
+     * @param processInstanceId 流程实例id
+     * @param reason 删除原因
+     */
+    void deleteHasReason(String processInstanceId, String reason);
 }

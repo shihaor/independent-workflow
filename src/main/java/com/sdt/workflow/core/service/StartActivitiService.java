@@ -1,5 +1,7 @@
 package com.sdt.workflow.core.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sdt.workflow.vo.ActivitiFormVO;
 import org.activiti.engine.form.FormProperty;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,4 +32,12 @@ public interface StartActivitiService {
      * @return
      */
     List<FormProperty> normalTask(String taskId);
+
+    /**
+     * 流程携带表单启动
+     *
+     * @param activitiFormVO 流程启动需要的参数
+     * @param request        上下文请求
+     */
+    void hasForm(ActivitiFormVO activitiFormVO, HttpServletRequest request) throws JsonProcessingException;
 }

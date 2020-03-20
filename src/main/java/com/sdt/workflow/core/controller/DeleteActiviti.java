@@ -1,7 +1,7 @@
 package com.sdt.workflow.core.controller;
 
+import com.sdt.common.result.Result;
 import com.sdt.workflow.core.service.DeleteActivitiService;
-import com.sdt.common.utils.JsonUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +26,17 @@ public class DeleteActiviti {
     private DeleteActivitiService deleteActivitiService;
 
     @PostMapping("/deleteNoReason/{id}")
-    @ApiOperation(value = "根据流程实例id删除流程，需要删除原因")
-    public String deleteNoReason(@PathVariable("id") String processInstanceId) throws Exception {
+    @ApiOperation(value = "根据流程实例id删除流程，不需要删除原因")
+    public Result deleteNoReason(@PathVariable("id") String processInstanceId) {
 
         deleteActivitiService.deleteNoReason(processInstanceId);
-        return JsonUtil.genJsonSuccess(true);
+        return Result.success("删除流程成功，可去我的申请里面查看");
+    }
+
+    @PostMapping("/deleteHasReason/{id}")
+    @ApiOperation(value = "根据流程实例id删除流程，需要删除原因")
+    public Result deleteHasReason(@PathVariable("id") String processInstanceId, String reason) {
+        deleteActivitiService.deleteHasReason(processInstanceId, reason);
+        return Result.success("删除流程成功，并添加备注，可去我的申请查看");
     }
 }

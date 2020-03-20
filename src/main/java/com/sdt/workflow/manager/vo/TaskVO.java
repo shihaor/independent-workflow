@@ -14,6 +14,16 @@ public class TaskVO {
 
     private String description;
 
+    private String startTime;
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
     public String getId() {
         return id;
     }

@@ -22,4 +22,44 @@ public class Options {
     private List ali;
 
     private List qinlu;
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public String getOss() {
+        return oss;
+    }
+
+    public void setOss(String oss) {
+        this.oss = oss;
+    }
+
+    public List getProps() {
+        return props;
+    }
+
+    public void setProps(List props) {
+        this.props = props;
+    }
+
+    public List getAli() {
+        return ali;
+    }
+
+    public void setAli(List ali) {
+        this.ali = ali;
+    }
+
+    public List getQinlu() {
+        return qinlu;
+    }
+
+    public void setQinlu(List qinlu) {
+        this.qinlu = qinlu;
+    }
 }

@@ -1,5 +1,9 @@
 package com.sdt.workflow.manager.service.impl;
 
+import com.sdt.common.constant.DatePattern;
+import com.sdt.common.exception.GlobalException;
+import com.sdt.common.result.CodeMsg;
+import com.sdt.common.utils.CommonUtils;
 import com.sdt.workflow.manager.GitLog;
 import com.sdt.workflow.manager.service.IndexManagerService;
 import org.activiti.engine.HistoryService;
@@ -9,6 +13,7 @@ import org.activiti.engine.RuntimeService;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -72,10 +77,18 @@ public class IndexManagerServiceImpl implements IndexManagerService {
         return historyService.createHistoricProcessInstanceQuery().finished().list().size();
     }
 
+    @Value(value = "${git.dir}")
+    private String dir;
+
     @Override
     public List<GitLog> getCommitLog() throws IOException, GitAPIException {
 
-        Git git = Git.open(new File("F:/workpeace/independent-workflow/"));
+        Git git = null;
+        try {
+            git = Git.open(new File("E:/Java-Web-Env/independent-workflow/"));
+        } catch (IOException e) {
+            throw new GlobalException(CodeMsg.DIR_NOT_FOUNT);
+        }
         Iterable<RevCommit> call = git.log().call();
         Iterator<RevCommit> iterator = call.iterator();
         GitLog gitLog = null;
@@ -85,7 +98,7 @@ public class IndexManagerServiceImpl implements IndexManagerService {
             RevCommit commit = iterator.next();
             Date date = commit.getAuthorIdent().getWhen();
             String fullMessage = commit.getFullMessage();
-            gitLog.setData(date);
+            gitLog.setDate(CommonUtils.dateToString(date, DatePattern.DATE_ALL));
             gitLog.setMsg(fullMessage);
             list.add(gitLog);
         }

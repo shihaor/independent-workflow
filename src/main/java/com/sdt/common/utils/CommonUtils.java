@@ -1,14 +1,20 @@
 package com.sdt.common.utils;
 
+import com.sdt.common.bean.PagerBean;
 import com.sdt.common.constant.DatePattern;
+import com.sdt.common.result.ListResult;
+import com.sdt.common.result.Result;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.util.Assert;
 
+import javax.servlet.http.HttpSession;
 import java.beans.FeatureDescriptor;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
 
 /**
@@ -103,17 +109,39 @@ public class CommonUtils {
     }
 
     /**
-     * 复制对象的时候为空不复制
-     * BeanUtils.copyProperties(src, target, getNullPropertyNames(src))
+     * 返回List给前端
      *
-     * @param source 源对象
-     * @return 新的对象
+     * @param pagerBean 分页参数
+     * @param list      结果集
+     * @return 状态
+     */
+    public static Result<Object> listResult(PagerBean pagerBean, List list) {
+        int startPage = pagerBean.getStartPage();
+        int limit = pagerBean.getLimit();
+        return Result.success(new ListResult(list, list.size(), startPage, limit));
+    }
+
+    /**
+     * 将类中为空的属性去掉
+     *
+     * @param source 待去掉Null的类
+     * @return 应该被屏蔽掉的属性
      */
     public static String[] getNullPropertyNames(Object source) {
-        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
-        return Stream.of(wrappedSource.getPropertyDescriptors())
-                .map(FeatureDescriptor::getName)
-                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
-                .toArray(String[]::new);
+        final BeanWrapper wrapper = new BeanWrapperImpl(source);
+        return Stream.of(wrapper.getPropertyDescriptors()).map(FeatureDescriptor::getName).filter(propertyName -> wrapper.getPropertyValue(propertyName) == null).toArray(String[]::new);
+    }
+
+
+    /**
+     * 获取人的id
+     *
+     * @param session 服务器缓存
+     * @return 人的id
+     */
+    public static String getUserId(HttpSession session) {
+        Object id = session.getAttribute("UserId");
+        Assert.notNull(id, "当前登录信息过期，请重新登录");
+        return id.toString();
     }
 }

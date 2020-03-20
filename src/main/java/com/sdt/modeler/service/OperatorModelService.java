@@ -10,7 +10,6 @@ import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.slf4j.Logger;
@@ -19,6 +18,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -36,9 +36,6 @@ public class OperatorModelService {
 
     @Resource
     private RepositoryService repositoryService;
-
-    @Resource
-    private RuntimeService runtimeService;
 
     private final Logger LOGGER = LoggerFactory.getLogger(OperatorModelService.class);
 
@@ -173,15 +170,17 @@ public class OperatorModelService {
     /**
      * 添加bpmn文件下载
      *
-     * @param modelId 模型id
+     * @param modelId  模型id
+     * @param response
      * @return 文件字节流
      * @throws IOException 转化xml异常
      */
-    public byte[] downloadModel(String modelId) throws IOException {
+    public byte[] downloadModel(String modelId, HttpServletResponse response) throws IOException {
         byte[] source = repositoryService.getModelEditorSource(modelId);
         JsonNode modelNode = mapper.readTree(source);
         BpmnModel bpmnModel = new BpmnJsonConverter().convertToBpmnModel(modelNode);
-        return new BpmnXMLConverter().convertToXML(bpmnModel);
+        byte[] bytes = new BpmnXMLConverter().convertToXML(bpmnModel);
+        return bytes;
     }
 
     /**
@@ -199,15 +198,5 @@ public class OperatorModelService {
             modelIdList.add(modelVO);
         });
         return modelIdList;
-    }
-
-    /**
-     * 获取二进制图片
-     *
-     * @param modelId 模型Id
-     * @return
-     */
-    public byte[] getPng(String modelId) {
-        return repositoryService.getModelEditorSourceExtra(modelId);
     }
 }

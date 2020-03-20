@@ -66,8 +66,8 @@ public class ModelService {
                 ObjectNode editorJsonNode = (ObjectNode) mapper.readTree(new String(source, StandardCharsets.UTF_8));
                 modelNode.put("model", editorJsonNode);
             } catch (Exception e) {
-                LOGGER.error("Error creating model JSON", e);
-                throw new ActivitiException("Error creating model JSON", e);
+                LOGGER.error("创建模型json失败", e);
+                throw new ActivitiException("创建模型json失败", e);
             }
         }
         return modelNode;
@@ -109,8 +109,8 @@ public class ModelService {
             // Saves the model editor source extra for a model
             repositoryService.addModelEditorSourceExtra(model.getId(), result);
         } catch (Exception e) {
-            LOGGER.error("Error saving model", e);
-            throw new ActivitiException("Error saving model", e);
+            LOGGER.error("保存模型失败", e);
+            throw new ActivitiException("保存模型失败", e);
         }
     }
 
@@ -125,8 +125,8 @@ public class ModelService {
             InputStream stencilsetStream = this.getClass().getClassLoader().getResourceAsStream("stencilset.json");
             return IOUtils.toString(stencilsetStream, "utf-8");
         } catch (Exception e) {
-            LOGGER.error("the file 'stencilset' is not exist");
-            throw new ActivitiException("Error while loading stencil set", e);
+            LOGGER.error("渲染文件未找到");
+            throw new ActivitiException("渲染文件未找到", e);
         }
     }
 }

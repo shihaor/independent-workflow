@@ -13,7 +13,7 @@ public class PagerBean {
     private int limit;
 
     public int getStartPage() {
-        return startPage;
+        return (startPage - 1) * limit;
     }
 
     public void setStartPage(int startPage) {
@@ -21,7 +21,7 @@ public class PagerBean {
     }
 
     public int getLimit() {
-        return limit;
+        return limit * startPage;
     }
 
     public void setLimit(int limit) {

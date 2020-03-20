@@ -1,17 +1,17 @@
 package com.sdt.workflow.manager.controller;
 
+import com.sdt.common.result.Result;
 import com.sdt.workflow.manager.GitLog;
 import com.sdt.workflow.manager.service.IndexManagerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,7 +20,7 @@ import java.util.List;
  * @author shihaoran
  * @date 2020/2/25
  */
-@Controller
+@RestController
 @Api(value = "获取首页信息")
 @RequestMapping("/index/manager")
 public class IndexManager {
@@ -28,9 +28,9 @@ public class IndexManager {
     @Resource
     private IndexManagerService indexManagerService;
 
-    @GetMapping("/getIndexMsg")
+    @GetMapping(value = "/getIndexMsg")
     @ApiOperation(value = "获取首页信息")
-    public String getIndexMsg(Model model) throws IOException, GitAPIException {
+    public Result getIndexMsg() throws Exception {
 
         int accountNumber = indexManagerService.getAccountNumber();
         int orgNumber = indexManagerService.getOrgNumber();
@@ -39,14 +39,17 @@ public class IndexManager {
         int runningNumber = indexManagerService.getRunningNumber();
         int overNumber = indexManagerService.getOverNumber();
         List<GitLog> commitLog = indexManagerService.getCommitLog();
-        model.addAttribute("accountNumber", accountNumber);
-        model.addAttribute("orgNumber", orgNumber);
-        model.addAttribute("modelNumber", modelNumber);
-        model.addAttribute("deploymentNumber", deploymentNumber);
-        model.addAttribute("runningNumber", runningNumber);
-        model.addAttribute("overNumber", overNumber);
-        model.addAttribute("commitLog", commitLog);
-        model.addAttribute("commitLogSize", commitLog.size());
-        return "home.html";
+        List<Object> list = new ArrayList<>();
+        HashMap<Object, Object> map = new HashMap<>(16);
+        map.put("accountNumber",accountNumber );
+        map.put("orgNumber",orgNumber );
+        map.put("modelNumber", modelNumber);
+        map.put("deploymentNumber", deploymentNumber);
+        map.put("runningNumber", runningNumber);
+        map.put("overNumber", overNumber);
+        map.put("commitLog", commitLog);
+        map.put("commitLogSize", commitLog.size());
+        list.add(map);
+        return Result.success(list);
     }
 }

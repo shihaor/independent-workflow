@@ -1,23 +1,23 @@
 package com.sdt.dynamicform.dao;
 
-import com.sdt.dynamicform.entity.FormValueLinkProcess;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.sdt.dynamicform.entity.FormLinkBusiness;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
- * 查询{@link FormValueLinkProcess}实体的dao
+ * 查询{@link FormLinkBusiness}实体的dao
  *
- * @date 2019/11/13
  * @author shihaoran
+ * @date 2019/11/13
  */
-public interface IProcessValueDao extends JpaRepository<FormValueLinkProcess, Integer> {
+public interface IProcessValueDao extends CrudRepository<FormLinkBusiness, Integer>, JpaSpecificationExecutor, PagingAndSortingRepository<FormLinkBusiness, Integer> {
 
     /**
-     * 通过流程实例id获取携带的设备id，这个方法只会获取第一条数据，就是启动节点的数据
-     * 有多少节点就会存在多少条重复的，区别在于taskID和只有第一个记录有设备id
+     * 通过流程实例id查找表单关联业务对象的实体
      *
      * @param processInstanceId 流程实例id
-     * @return 表单详细
-     * @throws Exception 查找异常
+     * @return 表单关联业务对象的实体
      */
-    FormValueLinkProcess findByProcessInstanceId(String processInstanceId) throws Exception;
+    FormLinkBusiness findByProcessInstanceId(String processInstanceId);
 }

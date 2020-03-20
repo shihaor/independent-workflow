@@ -24,7 +24,7 @@ public class ProcessBusiness extends BusinessObjServiceImpl {
     private RepositoryService repositoryService;
 
     @Override
-    public void addOrUpdate(BusinessObject businessObject) throws Exception {
+    public BusinessObject addOrUpdate(BusinessObject businessObject) throws Exception {
 
         // 通过业务对象的流程id 来确定流程是否存在
         String processDefineId = businessObject.getProcessDefineId();
@@ -38,5 +38,6 @@ public class ProcessBusiness extends BusinessObjServiceImpl {
             BeanUtils.copyProperties(businessObject, oldObj, CommonUtils.getNullPropertyNames(businessObject));
         }
         super.businessObjectDao.save(oldObj);
+        return oldObj;
     }
 }

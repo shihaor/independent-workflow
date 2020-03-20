@@ -16,7 +16,13 @@
     <!--HandlerMapping 无需配置，SpringMVC可以默认启动-->
     <mvc:default-servlet-handler/>
     <!-- 配置注解驱动 可以将request参数与绑定到controller参数上 -->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="false">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     <!-- 引入配置文件 -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -89,12 +95,14 @@
         <property name="jpaCloseEntityManager" value="true"/>
         <property name="jpaEntityManagerFactory" ref="entityManagerFactory"/>
         <property name="jpaHandleTransaction" value="true"/>
+        <property name="databaseType" value="mysql"/>
         <!-- 是否自动创建表 -->
         <property name="databaseSchemaUpdate" value="true"/>
         <property name="activityFontName" value="宋体"/>
         <property name="labelFontName" value="宋体"/>
+        <property name="idGenerator" ref="uuidGenerator"/>
     </bean>
-
+    <bean id="uuidGenerator" class="com.sdt.workflow.core.IdGenerators"/>
     <!--配置引擎工厂 -->
     <bean id="processEngineFactory" class="org.activiti.spring.ProcessEngineFactoryBean">
         <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
@@ -108,4 +116,7 @@
     <bean id="taskService" factory-bean="processEngineFactory" factory-method="getTaskService"/>
     <bean id="historyService" factory-bean="processEngineFactory" factory-method="getHistoryService"/>
     <bean id="managementService" factory-bean="processEngineFactory" factory-method="getManagementService"/>
+
+    <!-- 配置我的上下文获取类 -->
+    <bean id="springContextHolder" class="com.sdt.common.utils.SpringContextHolder" lazy-init="false"/>
 </beans>

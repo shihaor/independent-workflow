@@ -13,33 +13,20 @@ import javax.persistence.Table;
 /**
  * 不使用activti的数据表，需要自己新建一个
  *
- * @date 2019/11/13
  * @author shihaoran
+ * @date 2019/11/13
  */
 @Entity
-@Table(name = "e_form_value")
+@Table(name = "form_link_bus")
 @ApiModel(value = "流程每次数据不一样，需要以流程实例id为标识")
 @JsonIgnoreProperties(value = {"uuid", "deleted", "deleteTime"})
-public class FormValueLinkProcess extends AbstractBaseBean {
+public class FormLinkBusiness extends AbstractBaseBean {
 
     private static final long serialVersionUID = 7421741401832804163L;
-
-    @Column(name = "form_id", length = 50)
-    @ApiModelProperty(value = "表单的id用来做标识")
-    private Integer formId;
-
-    @Lob
-    @Column(name = "dev_id", columnDefinition = "text")
-    @ApiModelProperty(value = "设备id")
-    private String devIds;
 
     @Column(name = "pro_inst_id", length = 64)
     @ApiModelProperty(value = "流程的id用来做标识")
     private String processInstanceId;
-
-    @Column(name = "task_id", length = 64)
-    @ApiModelProperty(value = "流程的节点id用来做标识")
-    private String taskId;
 
     @Lob
     @Column(name = "form_data", columnDefinition = "text")
@@ -47,17 +34,14 @@ public class FormValueLinkProcess extends AbstractBaseBean {
     private String formData;
 
     @Lob
-    @Column(name = "form_style", columnDefinition = "text")
-    @ApiModelProperty(value = "控件的样式")
-    private String formStyle;
+    @Column(name = "form_old_style", columnDefinition = "text")
+    @ApiModelProperty(value = "控件的旧样式")
+    private String formOldStyle;
 
-    public Integer getFormId() {
-        return formId;
-    }
-
-    public void setFormId(Integer formId) {
-        this.formId = formId;
-    }
+    @Lob
+    @Column(name = "form_new_style", columnDefinition = "text")
+    @ApiModelProperty(value = "控件的随流程运转改变的样式")
+    private String formNewStyle;
 
     public String getProcessInstanceId() {
         return processInstanceId;
@@ -65,22 +49,6 @@ public class FormValueLinkProcess extends AbstractBaseBean {
 
     public void setProcessInstanceId(String processInstanceId) {
         this.processInstanceId = processInstanceId;
-    }
-
-    public String getDevIds() {
-        return devIds;
-    }
-
-    public void setDevIds(String devIds) {
-        this.devIds = devIds;
-    }
-
-    public String getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(String taskId) {
-        this.taskId = taskId;
     }
 
     public String getFormData() {
@@ -91,11 +59,19 @@ public class FormValueLinkProcess extends AbstractBaseBean {
         this.formData = formData;
     }
 
-    public String getFormStyle() {
-        return formStyle;
+    public String getFormOldStyle() {
+        return formOldStyle;
     }
 
-    public void setFormStyle(String formStyle) {
-        this.formStyle = formStyle;
+    public void setFormOldStyle(String formOldStyle) {
+        this.formOldStyle = formOldStyle;
+    }
+
+    public String getFormNewStyle() {
+        return formNewStyle;
+    }
+
+    public void setFormNewStyle(String formNewStyle) {
+        this.formNewStyle = formNewStyle;
     }
 }

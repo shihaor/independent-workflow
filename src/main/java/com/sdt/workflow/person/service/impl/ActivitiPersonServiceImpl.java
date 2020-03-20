@@ -2,7 +2,6 @@ package com.sdt.workflow.person.service.impl;
 
 import com.sdt.workflow.person.service.ActivitiPersonService;
 import com.sdt.workflow.person.vo.Person;
-import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.User;
 import org.apache.commons.lang3.StringUtils;
@@ -27,9 +26,6 @@ public class ActivitiPersonServiceImpl implements ActivitiPersonService {
     @Override
     public void addOrUpdate(Person person) {
 
-        if (null == person) {
-            throw new ActivitiException("人员信息为空，添加错误");
-        }
         User user = identityService.createUserQuery().userId(person.getId()).singleResult();
         if (null == user) {
             user = identityService.newUser(person.getId());
@@ -37,8 +33,8 @@ public class ActivitiPersonServiceImpl implements ActivitiPersonService {
         if (StringUtils.isNotEmpty(person.getName())) {
             user.setFirstName(person.getName());
         }
-        if (StringUtils.isNotEmpty(person.getLastName())) {
-            user.setLastName(person.getLastName());
+        if (StringUtils.isNotEmpty(person.getSysName())) {
+            user.setLastName(person.getSysName());
         }
         identityService.saveUser(user);
         if (StringUtils.isNotEmpty(person.getOrgId())) {

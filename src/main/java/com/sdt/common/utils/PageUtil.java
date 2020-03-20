@@ -1,6 +1,9 @@
 package com.sdt.common.utils;
 
 
+import com.sdt.common.exception.GlobalException;
+import com.sdt.common.result.CodeMsg;
+
 import java.util.List;
 
 /**
@@ -21,29 +24,33 @@ public class PageUtil {
      */
     public static List pageSubList(List list, int startPage, int limit) {
 
-        if (null == list) {
-            return null;
-        }
-        if (list.isEmpty()) {
-            return null;
-        }
-        int count = list.size();
-        int pageCount = 0;
-        if (count % limit == 0) {
-            pageCount = count / limit;
-        } else {
-            pageCount = count / limit + 1;
-        }
+        try {
+            if (null == list) {
+                return null;
+            }
+            if (list.isEmpty()) {
+                return null;
+            }
+            int count = list.size();
+            int pageCount = 0;
+            if (count % limit == 0) {
+                pageCount = count / limit;
+            } else {
+                pageCount = count / limit + 1;
+            }
 
-        int startIndex = 0;
-        int endIndex = 0;
-        if (startPage != pageCount) {
-            startIndex = (startPage - 1) * limit;
-            endIndex = startIndex + limit;
-        } else {
-            startIndex = (startPage - 1) * limit;
-            endIndex = count;
+            int startIndex = 0;
+            int endIndex = 0;
+            if (startPage != pageCount) {
+                startIndex = (startPage - 1) * limit;
+                endIndex = startIndex + limit;
+            } else {
+                startIndex = (startPage - 1) * limit;
+                endIndex = count;
+            }
+            return list.subList(startIndex, endIndex);
+        } catch (Exception e) {
+            throw new GlobalException(CodeMsg.PAGE_ERROR);
         }
-        return list.subList(startIndex, endIndex);
     }
 }

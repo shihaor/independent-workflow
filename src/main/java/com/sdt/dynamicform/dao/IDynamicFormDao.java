@@ -14,4 +14,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface IDynamicFormDao extends CrudRepository<DynamicForm, Integer>, JpaSpecificationExecutor,
         PagingAndSortingRepository<DynamicForm, Integer> {
 
+    /**
+     * 通过业务id来查找
+     *
+     * @param businessId 业务对象id
+     * @return 表单
+     */
+    DynamicForm findByBusinessId(Integer businessId);
 }

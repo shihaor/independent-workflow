@@ -1,5 +1,6 @@
 package com.sdt.workflow.skippage.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,6 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class SkipPage {
+
+    @GetMapping("/editor")
+    @ApiOperation(value = "跳转至编辑页面")
+    public String editor() {
+        return "modeler.html";
+    }
 
     @GetMapping("/loginPage")
     public String loginPage() {

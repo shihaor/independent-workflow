@@ -2,7 +2,6 @@ package com.sdt.workflow.person.service.impl;
 
 import com.sdt.workflow.person.service.ActivitiOrganizeService;
 import com.sdt.workflow.person.vo.Organize;
-import org.activiti.engine.ActivitiException;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.Group;
 import org.apache.commons.lang3.StringUtils;
@@ -27,9 +26,6 @@ public class ActivitiOrganizeServiceImpl implements ActivitiOrganizeService {
     @Override
     public void addOrUpdate(Organize organize) {
 
-        if (null == organize) {
-            throw new ActivitiException("待添加机构信息为空");
-        }
         Group group = identityService.createGroupQuery().groupId(organize.getOrgId()).singleResult();
         if (null == group) {
             group = identityService.newGroup(organize.getOrgId());

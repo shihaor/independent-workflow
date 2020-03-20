@@ -12,9 +12,37 @@ public class ProcessDefineVO {
 
     private String name;
 
-    private int version;
+    private Integer version;
 
     private String description;
+
+    private String lastTime;
+
+    private String status;
+
+    public String getLastTime() {
+        return lastTime;
+    }
+
+    public void setLastTime(String lastTime) {
+        this.lastTime = lastTime;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean flag) {
+        if (flag) {
+            this.status = "已停用";
+        } else {
+            this.status = "在用";
+        }
+    }
 
     public String getId() {
         return id;

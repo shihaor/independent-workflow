@@ -1,7 +1,5 @@
 package com.sdt.workflow.manager;
 
-import java.util.Date;
-
 /**
  * git提交记录
  *
@@ -10,16 +8,16 @@ import java.util.Date;
  */
 public class GitLog {
 
-    private Date data;
+    private String date;
 
     private String msg;
 
-    public Date getData() {
-        return data;
+    public String getDate() {
+        return date;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getMsg() {
